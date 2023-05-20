@@ -1,0 +1,28 @@
+body {
+    background-color: seagreen;
+    padding: 1rem;
+}
+
+.top-wrapper{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2rem;
+}
+
+.stockandwaste{
+    display: flex;
+    justify-content: space-between;
+    width: 15rem;
+}
+
+.foundation{
+    display: flex;
+    margin-left: 20rem;
+    justify-content: space-between;
+    width: 75rem;
+}
+
+.tableau{
+    display: flex;
+    justify-content: space-between;
+}
