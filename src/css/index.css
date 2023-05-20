@@ -5,24 +5,39 @@ body {
 
 .top-wrapper{
     display: flex;
-    flex-direction: row;
     margin-bottom: 2rem;
+    justify-content: space-around;
+    width: 100%;
+    
 }
 
 .stockandwaste{
     display: flex;
-    justify-content: space-between;
-    width: 15rem;
+    gap: 1.5rem;
+    
+}
+
+.card{
+    outline: solid black 2px;
+    padding: 2rem 0.5rem;
+    height: 9rem;
+    min-width: 7rem;
+    max-width: 7rem;
+    text-align: center;
+    background-color: rgba(39, 117, 72, 0.7);
+    font-size: larger;
 }
 
 .foundation{
     display: flex;
-    margin-left: 20rem;
-    justify-content: space-between;
-    width: 75rem;
+}
+
+.foundationCard{
+    margin-right: 1rem;
 }
 
 .tableau{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 1rem;
 }
