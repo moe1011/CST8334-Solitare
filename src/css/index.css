@@ -19,10 +19,10 @@ body {
 
 .card{
     outline: solid black 2px;
-    padding: 2rem 0.5rem;
-    height: 9rem;
-    min-width: 7rem;
-    max-width: 7rem;
+    /*padding: 2rem 0.5rem;*/
+    height: 12rem;
+    min-width: 8rem;
+    max-width: 8rem;
     text-align: center;
     background-color: rgba(39, 117, 72, 0.7);
     font-size: larger;
@@ -40,4 +40,26 @@ body {
     display: flex;
     justify-content: center;
     gap: 1rem;
+}
+
+ul {
+    padding-left: 0;
+}
+
+.stackedList li {
+    height: 0rem;
+    list-style-type: none;
+}
+
+.stackedList li :last-child {
+    height: 12rem;
+}
+
+.fannedList li {
+    height: 2.3rem;
+    list-style-type: none;
+}
+
+.fannedList li :last-child {
+    height: 12rem;
 }
