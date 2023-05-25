@@ -1,65 +1,97 @@
 body {
-    background-color: seagreen;
-    padding: 1rem;
+  background-color: rgb(22, 151, 78);
+  padding-top: 2rem;
+
+  background-image: url(../images/solitareBg.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: normal;
+  background-size: cover;
+  height: 100%;
+  overflow: auto;
 }
 
-.top-wrapper{
-    display: flex;
-    margin-bottom: 2rem;
-    justify-content: space-around;
-    width: 100%;
-    
+html{
+    overflow: hidden;
+    height: 100%;
 }
 
-.stockandwaste{
-    display: flex;
-    gap: 1.5rem;
-    
+.top-wrapper {
+  display: flex;
+  margin-bottom: 2rem;
+  justify-content: space-around;
+  width: 100%;
 }
 
-.card{
-    outline: solid black 2px;
-    /*padding: 2rem 0.5rem;*/
-    height: 12rem;
-    min-width: 8rem;
-    max-width: 8rem;
-    text-align: center;
-    background-color: rgba(39, 117, 72, 0.7);
-    font-size: larger;
+.stockandwaste {
+  display: flex;
+  gap: 1.5rem;
 }
 
-.foundation{
-    display: flex;
+.card {
+  border: dashed rgb(20, 20, 20) 1.5px;
+  border-radius: 0.7rem;
+  height: 12rem;
+  min-width: 8rem;
+  max-width: 8rem;
+  text-align: center;
+  font-size: larger;
+  user-select: none;
+  cursor: pointer;
 }
 
-.foundationCard{
-    margin-right: 1rem;
+.foundation {
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
 }
 
-.tableau{
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
+.imageContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imageContainer .overlayImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+  z-index: -1;
+}
+
+.bottom-wrapper{
+    padding-bottom: 15rem;
+}
+
+.tableau {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }
 
 ul {
-    padding-left: 0;
+  padding-left: 0;
 }
 
 .stackedList li {
-    height: 0rem;
-    list-style-type: none;
+  height: 0rem;
+  list-style-type: none;
 }
 
 .stackedList li :last-child {
-    height: 12rem;
+  height: 12rem;
 }
 
 .fannedList li {
-    height: 2.3rem;
-    list-style-type: none;
+  height: 2.3rem;
+  list-style-type: none;
 }
 
 .fannedList li :last-child {
-    height: 12rem;
+  height: 12rem;
 }
