@@ -684,7 +684,6 @@ function display_cards(cards, destination) {
             case "tableau4List":
                 var li = document.createElement("li");
 
-                //if (counter < cards_length - 1) {
                 if (counter < tableau4Facedown) {
                     var card_image = '<img src="' + deck.back[0].image + '">';
                 } else {
@@ -697,7 +696,6 @@ function display_cards(cards, destination) {
             case "tableau5List":
                 var li = document.createElement("li");
 
-                //if (counter < cards_length - 1) {
                 if (counter < tableau5Facedown) {
                     var card_image = '<img src="' + deck.back[0].image + '">';
                 } else {
@@ -737,13 +735,8 @@ function display_cards(cards, destination) {
         }
     });
 
-    //
-    //document.getElementById(destination).innerHTML = card_list;
-    //console.log(destination);
     //console.table(cards);
 }
-
-
 
 
 // play card
@@ -753,12 +746,11 @@ function play_card(listItem) {
         var list_name = listItem.parentNode.parentNode.getAttribute("id");
         var source_array = "";
         var source_list = "";
-
+        var source_multi_selected = false;
         var source_item_num = -1;
         var destination_array = "";
         var destination_list = "";
-        var destination_length = 0;
-        var card_moved = false;
+
         var filename = ""
 
         // get filename (card number)
@@ -776,11 +768,12 @@ function play_card(listItem) {
         var card_suit = deck.cards[card_num].suit;
         var card_value = deck.cards[card_num].value;
         var card_colour = deck.cards[card_num].colour;
-        //var card_image = deck.cards[card_num].image;
+
         console.log("****** NEW CARD SELECTED******")
         console.log("CARD NUM:" + card_num + "  RANK:" + card_rank + "  VALUE:" + card_value + "  SUIT:" + card_suit + "  COLOUR:" + card_colour);
 
         // get source array info
+        var card_position = -1;
         switch (list_name) {
             case "wasteList":
                 source_array = waste;
@@ -789,34 +782,62 @@ function play_card(listItem) {
             case "tableau1List":
                 source_array = tableau_1;
                 source_list = "tableau1List";
+                source_item_num = tableau_1.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau_1.length - 1) {
+                    source_multi_selected = true; 
+                }
                 break;
             case "tableau2List":
                 source_array = tableau_2;
                 source_list = "tableau2List";
+                source_item_num = tableau_2.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau_2.length - 1) {
+                    source_multi_selected = true; 
+                }
                 break;
             case "tableau3List":
                 source_array = tableau_3;
                 source_list = "tableau3List";
+                source_item_num = tableau_3.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau_2.length - 1) {
+                    source_multi_selected = true;
+                }
                 break;
             case "tableau4List":
                 source_array = tableau_4;
                 source_list = "tableau4List";
+                source_item_num = tableau_4.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau_4.length -1) {
+                    source_multi_selected = true; 
+                }
                 break;
             case "tableau5List":
                 source_array = tableau_5;
-                source_list = "tableau5List";
+                source_list = "tableau5List"
+                source_item_num = tableau_5.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau_5.length - 1) {
+                    source_multi_selected = true; 
+                }
                 break;
             case "tableau6List":
                 source_array = tableau_6;
                 source_list = "tableau6List";
+                source_item_num = tableau_6.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau_6.length - 1) {
+                    source_multi_selected = true; 
+                }
                 break;
             case "tableau7List":
                 source_array = tableau_7;
                 source_list = "tableau7List";
+                source_item_num = tableau_7.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau_7.length - 1) {
+                    source_multi_selected = true; 
+                }
                 break;
         }
-        source_item_num = source_array.find(({ card_number }) => card_number === "filename");
-        console.log("CARD POSITION:" + source_item_num);
+
+        console.log("MULTI:" + source_multi_selected + "  CARD POSITION:" + source_item_num + "  SOURCE TABLEAU LENGTH:" + source_array.length); 
 
         // check foundations
         switch (card_suit) {
@@ -830,7 +851,6 @@ function play_card(listItem) {
 
                 if (card_rank - heart_rank == 1) {
                     hearts.push(source_array.pop());
-                    card_moved = true;
                     destination_array = hearts;
                     destination_list = "heartsList";
                     update_facedown_count(source_list);
@@ -848,7 +868,6 @@ function play_card(listItem) {
 
                 if (card_rank - diamond_rank == 1) {
                     diamonds.push(source_array.pop());
-                    card_moved = true;
                     destination_array = diamonds;
                     destination_list = "diamondsList";
                     update_facedown_count(source_list);
@@ -866,7 +885,6 @@ function play_card(listItem) {
 
                 if (card_rank - spade_rank == 1) {
                     spades.push(source_array.pop());
-                    card_moved = true;
                     destination_array = spades;
                     destination_list = "spadesList";
                     update_facedown_count(source_list);
@@ -884,7 +902,6 @@ function play_card(listItem) {
 
                 if (card_rank - club_rank == 1) {
                     clubs.push(source_array.pop());
-                    card_moved = true;
                     destination_array = clubs;
                     destination_list = "clubsList";
                     update_facedown_count(source_list);
@@ -904,7 +921,9 @@ function play_card(listItem) {
                 if (card_colour != t1_colour) {
                     console.log("TABLEAU 1 - COLOUR ... OK");
                     tableau_1.push(source_array.pop());
-                    card_moved = true;
+
+                    //tableau_1 = source_array.splice(source_item_num, source_array.length -1);
+                    
                     destination_array = tableau_1;
                     destination_list = "tableau1List";
                     update_facedown_count(source_list);
@@ -916,7 +935,10 @@ function play_card(listItem) {
             if (card_rank == 13) {
                 console.log("TABLEAU 1 - KING TO POSITION 1 ... OK");
                 tableau_1.push(source_array.pop());
-                card_moved = true;
+
+                //tableau_1 = source_array.slice(source_item_num, source_array.length -1);
+
+
                 destination_array = tableau_1;
                 destination_list = "tableau1List";
                 update_facedown_count(source_list);
@@ -934,7 +956,9 @@ function play_card(listItem) {
                 if (card_colour != t2_colour) {
                     console.log("TABLEAU 2 - COLOUR ... OK");
                     tableau_2.push(source_array.pop());
-                    card_moved = true;
+
+                    //tableau_2 = source_array.slice(source_item_num, source_array.length -1);
+
                     destination_array = tableau_2;
                     destination_list = "tableau2List";
                     update_facedown_count(source_list);
@@ -946,7 +970,9 @@ function play_card(listItem) {
             if (card_rank == 13) {
                 console.log("TABLEAU 2 - KING TO POSITION 1 ... OK");
                 tableau_2.push(source_array.pop());
-                card_moved = true;
+
+                //tableau_2 = source_array.slice(source_item_num, source_array.length -1);
+
                 destination_array = tableau_2;
                 destination_list = "tableau2List";
                 update_facedown_count(source_list);
@@ -964,7 +990,9 @@ function play_card(listItem) {
                 if (card_colour != t3_colour) {
                     console.log("TABLEAU 3 - COLOUR ... OK");
                     tableau_3.push(source_array.pop());
-                    card_moved = true;
+
+                    //tableau_3 = source_array.slice(source_item_num, source_array.length -1);
+
                     destination_array = tableau_3;
                     destination_list = "tableau3List";
                     update_facedown_count(source_list);
@@ -976,7 +1004,9 @@ function play_card(listItem) {
             if (card_rank == 13) {
                 console.log("TABLEAU 3 - KING TO POSITION 1 ... OK");
                 tableau_3.push(source_array.pop());
-                card_moved = true;
+
+                //tableau_3 = source_array.slice(source_item_num, source_array.length -1);
+
                 destination_array = tableau_3;
                 destination_list = "tableau3List";
                 update_facedown_count(source_list);
@@ -994,7 +1024,9 @@ function play_card(listItem) {
                 if (card_colour != t4_colour) {
                     console.log("TABLEAU 4 - COLOUR ... OK");
                     tableau_4.push(source_array.pop());
-                    card_moved = true;
+
+                    //tableau_4 = source_array.slice(source_item_num, source_array.length -1);
+
                     destination_array = tableau_4;
                     destination_list = "tableau4List";
                     update_facedown_count(source_list);
@@ -1006,7 +1038,9 @@ function play_card(listItem) {
             if (card_rank == 13) {
                 console.log("TABLEAU 4 - KING TO POSITION 1 ... OK");
                 tableau_4.push(source_array.pop());
-                card_moved = true;
+
+                //tableau_4 = source_array.slice(source_item_num, source_array.length -1);
+
                 destination_array = tableau_4;
                 destination_list = "tableau4List";
                 update_facedown_count(source_list);
@@ -1024,7 +1058,9 @@ function play_card(listItem) {
                 if (card_colour != t5_colour) {
                     console.log("TABLEAU 5 - COLOUR ... OK");
                     tableau_5.push(source_array.pop());
-                    card_moved = true;
+
+                    //tableau_5 = source_array.slice(source_item_num, source_array.length -1);
+
                     destination_array = tableau_5;
                     destination_list = "tableau5List";
                     update_facedown_count(source_list);
@@ -1036,7 +1072,9 @@ function play_card(listItem) {
             if (card_rank == 13) {
                 console.log("TABLEAU 5 - KING TO POSITION 1 ... OK");
                 tableau_5.push(source_array.pop());
-                card_moved = true;
+
+                //tableau_5 = source_array.slice(source_item_num, source_array.length -1);
+
                 destination_array = tableau_5;
                 destination_list = "tableau5List";
                 update_facedown_count(source_array.toString());
@@ -1054,7 +1092,9 @@ function play_card(listItem) {
                 if (card_colour != t6_colour) {
                     console.log("TABLEAU 6 - COLOUR ... OK");
                     tableau_6.push(source_array.pop());
-                    card_moved = true;
+
+                    //tableau_6 = source_array.slice(source_item_num, source_array.length -1);
+
                     destination_array = tableau_6;
                     destination_list = "tableau6List";
                     update_facedown_count(source_list);
@@ -1066,7 +1106,9 @@ function play_card(listItem) {
             if (card_rank == 13) {
                 console.log("TABLEAU 6 - KING TO POSITION 1 ... OK");
                 tableau_6.push(source_array.pop());
-                card_moved = true;
+
+                //tableau_6 = source_array.slice(source_item_num, source_array.length -1);
+
                 destination_array = tableau_6;
                 destination_list = "tableau6List";
                 update_facedown_count(source_list);
@@ -1084,7 +1126,9 @@ function play_card(listItem) {
                 if (card_colour != t7_colour) {
                     console.log("TABLEAU 7 - COLOUR ... OK");
                     tableau_7.push(source_array.pop());
-                    card_moved = true;
+
+                    //tableau_7 = source_array.slice(source_item_num, source_array.length -1);
+
                     destination_array = tableau_7;
                     destination_list = "tableau7List";
                     update_facedown_count(source_array.toString());
@@ -1096,7 +1140,9 @@ function play_card(listItem) {
             if (card_rank == 13) {
                 console.log("TABLEAU 7 - KING TO POSITION 1 ... OK");
                 tableau_7.push(source_array.pop());
-                card_moved = true;
+
+                //tableau_1 = source_array.slice(source_item_num, source_array.length -1);
+
                 destination_array = tableau_7;
                 destination_list = "tableau7List";
                 update_facedown_count(source_list);
@@ -1126,7 +1172,7 @@ function update_facedown_count(source) {
         case "tableau4List":
             tableau4Facedown--;
             break;
-        case "tableau5list":
+        case "tableau5List":
             tableau5Facedown--;
             break;
         case "tableau6List":
