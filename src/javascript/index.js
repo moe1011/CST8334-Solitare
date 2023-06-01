@@ -62,6 +62,14 @@ var tableau5Facedown = 4;
 var tableau6Facedown = 5;
 var tableau7Facedown = 6;
 
+// facedown card count
+var tableau2Faceup = 1;
+var tableau3Faceup = 1;
+var tableau4Faceup = 1;
+var tableau5Faceup = 1;
+var tableau6Faceup = 1;
+var tableau7Faceup = 1;
+
 // additional variables
 var move_count = 0;
 var klondike_score = 0;
@@ -89,8 +97,17 @@ display_cards(tableau_5, "tableau5List");
 display_cards(tableau_6, "tableau6List");
 display_cards(tableau_7, "tableau7List");
 
+// greeting (alert or html model element?)
+//greeting();
 
 // FUNCTIONS
+
+
+function greeting() {
+    alert("CST8334:  SOFTWARE DEVELOPMENT PROJECT:  SOLITAIRE GAME \nINSTRUCTOR: Moe Osman \nSUBMITTED BY: \n" +
+        "Hisham Abdelmouneim - 041059881 \nMohammad Abdulla – 040986025 \nRudwan Alkawlani - 041078124 \n" +
+        "Abdulkawi Alattab - 041049970 \nBrian Boldt – 040226834 ");
+}
 
 // create deck
 function create(deck) {
@@ -616,7 +633,7 @@ function display_cards(cards, destination) {
         switch (destination) {
             case "stockList":
                 var li = document.createElement("li");
-                var card_image = '<img src="' + deck.back[0].image + '" onclick="stock_card(this)">';
+                var card_image = '<img src="' + deck.back[0].image + '" onclick="stock_card(this); event.stopPropagation()">';
                 li.innerHTML = card_image;
                 stockList.appendChild(li);
                 break;
@@ -696,7 +713,7 @@ function display_cards(cards, destination) {
             case "tableau5List":
                 var li = document.createElement("li");
 
-                if (counter < tableau5Facedown) {
+                if (counter < tableau5Facedown){
                     var card_image = '<img src="' + deck.back[0].image + '">';
                 } else {
                     var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
@@ -708,7 +725,7 @@ function display_cards(cards, destination) {
             case "tableau6List":
                 var li = document.createElement("li");
 
-                if (counter < tableau6Facedown) {
+                if (counter < tableau6Facedown){
                     var card_image = '<img src="' + deck.back[0].image + '">';
                 } else {
                     var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
@@ -734,10 +751,15 @@ function display_cards(cards, destination) {
                 break;
         }
     });
-
-    //console.table(cards);
+    /*
+    if (destination == "stockList") {
+        console.table(cards);
+    }
+    if (destination == "wasteList") {
+        console.table(cards);
+    }
+    */
 }
-
 
 // play card
 function play_card(listItem) {
@@ -837,11 +859,12 @@ function play_card(listItem) {
                 break;
         }
 
-        console.log("MULTI:" + source_multi_selected + "  CARD POSITION:" + source_item_num + "  SOURCE TABLEAU LENGTH:" + source_array.length); 
+        //console.log("MULTI:" + source_multi_selected + "  CARD POSITION:" + source_item_num + "  SOURCE TABLEAU LENGTH:" + source_array.length);
 
         // check foundations
         switch (card_suit) {
             case "heart":
+                console.log("CHECKING HEARTS RANK  ...");
                 var heart_rank;
                 if (hearts.length == 0) {
                     heart_rank = 0;
@@ -850,6 +873,7 @@ function play_card(listItem) {
                 }
 
                 if (card_rank - heart_rank == 1) {
+                    console.log("HEARTS RANK CHECK ...  PASSED");
                     hearts.push(source_array.pop());
                     destination_array = hearts;
                     destination_list = "heartsList";
@@ -859,6 +883,7 @@ function play_card(listItem) {
                 }
                 break;
             case "diamond":
+                console.log("CHECKING DIAMONDS RANK  ...");
                 var diamond_rank;
                 if (diamonds.length == 0) {
                     diamond_rank = 0;
@@ -867,6 +892,7 @@ function play_card(listItem) {
                 }
 
                 if (card_rank - diamond_rank == 1) {
+                    console.log("DIAMONDS RANK CHECK ...  PASSED");
                     diamonds.push(source_array.pop());
                     destination_array = diamonds;
                     destination_list = "diamondsList";
@@ -876,6 +902,7 @@ function play_card(listItem) {
                 }
                 break;
             case "spade":
+                console.log("CHECKING SPADES RANK  ...");
                 var spade_rank;
                 if (spades.length == 0) {
                     spade_rank = 0;
@@ -884,6 +911,7 @@ function play_card(listItem) {
                 }
 
                 if (card_rank - spade_rank == 1) {
+                    console.log("SPADES RANK CHECK ...  PASSED");
                     spades.push(source_array.pop());
                     destination_array = spades;
                     destination_list = "spadesList";
@@ -893,6 +921,7 @@ function play_card(listItem) {
                 }
                 break;
             case "club":
+                console.log("CHECKING CLUBS RANK  ...");
                 var club_rank;
                 if (clubs.length == 0) {
                     club_rank = 0;
@@ -901,6 +930,7 @@ function play_card(listItem) {
                 }
 
                 if (card_rank - club_rank == 1) {
+                    console.log("CLUBS RANK CHECK ...  PASSED");
                     clubs.push(source_array.pop());
                     destination_array = clubs;
                     destination_list = "clubsList";
@@ -917,13 +947,11 @@ function play_card(listItem) {
             var t1_rank = tableau_1.at(-1).rank;
             var t1_colour = tableau_1.at(-1).colour;
             if (t1_rank - card_rank == 1) {
-                console.log("TABLEAU 1 - RANK ... OK");
+                console.log("TABLEAU 1 - RANK CHECK ... PASSED");
                 if (card_colour != t1_colour) {
-                    console.log("TABLEAU 1 - COLOUR ... OK");
-                    tableau_1.push(source_array.pop());
-
-                    //tableau_1 = source_array.splice(source_item_num, source_array.length -1);
-                    
+                    console.log("TABLEAU 1 - COLOUR CHECK ... PASSED");
+                    //tableau_1.push(source_array.pop());
+                    tableau_1.push(...source_array.splice(source_item_num, source_array.length));
                     destination_array = tableau_1;
                     destination_list = "tableau1List";
                     update_facedown_count(source_list);
@@ -933,12 +961,9 @@ function play_card(listItem) {
             }
         } else {
             if (card_rank == 13) {
-                console.log("TABLEAU 1 - KING TO POSITION 1 ... OK");
-                tableau_1.push(source_array.pop());
-
-                //tableau_1 = source_array.slice(source_item_num, source_array.length -1);
-
-
+                console.log("TABLEAU 1 - KING TO POSITION 1 ... PASSED");
+                //tableau_1.push(source_array.pop());
+                tableau_1.push(...source_array.splice(source_item_num, source_array.length));
                 destination_array = tableau_1;
                 destination_list = "tableau1List";
                 update_facedown_count(source_list);
@@ -952,13 +977,11 @@ function play_card(listItem) {
             var t2_rank = tableau_2.at(-1).rank;
             var t2_colour = tableau_2.at(-1).colour;
             if (t2_rank - card_rank == 1) {
-                console.log("TABLEAU 2 - RANK ... OK");
+                console.log("TABLEAU 2 - RANK CHECK ... PASSED");
                 if (card_colour != t2_colour) {
-                    console.log("TABLEAU 2 - COLOUR ... OK");
-                    tableau_2.push(source_array.pop());
-
-                    //tableau_2 = source_array.slice(source_item_num, source_array.length -1);
-
+                    console.log("TABLEAU 2 - COLOUR CHECK ... PASSED");
+                    //tableau_2.push(source_array.pop());
+                    tableau_2.push(...source_array.splice(source_item_num, source_array.length));
                     destination_array = tableau_2;
                     destination_list = "tableau2List";
                     update_facedown_count(source_list);
@@ -968,11 +991,9 @@ function play_card(listItem) {
             }
         } else {
             if (card_rank == 13) {
-                console.log("TABLEAU 2 - KING TO POSITION 1 ... OK");
-                tableau_2.push(source_array.pop());
-
-                //tableau_2 = source_array.slice(source_item_num, source_array.length -1);
-
+                console.log("TABLEAU 2 - KING TO POSITION 1 ... PASSED");
+                //tableau_2.push(source_array.pop());
+                tableau_2.push(...source_array.splice(source_item_num, source_array.length));
                 destination_array = tableau_2;
                 destination_list = "tableau2List";
                 update_facedown_count(source_list);
@@ -986,13 +1007,11 @@ function play_card(listItem) {
             var t3_rank = tableau_3.at(-1).rank;
             var t3_colour = tableau_3.at(-1).colour;
             if (t3_rank - card_rank == 1) {
-                console.log("TABLEAU 3 - RANK ... OK");
+                console.log("TABLEAU 3 - RANK CHECK ... PASSED");
                 if (card_colour != t3_colour) {
-                    console.log("TABLEAU 3 - COLOUR ... OK");
-                    tableau_3.push(source_array.pop());
-
-                    //tableau_3 = source_array.slice(source_item_num, source_array.length -1);
-
+                    console.log("TABLEAU 3 - COLOUR CHECK ... PASSED");
+                    //tableau_3.push(source_array.pop());
+                    tableau_3.push(...source_array.splice(source_item_num, source_array.length));
                     destination_array = tableau_3;
                     destination_list = "tableau3List";
                     update_facedown_count(source_list);
@@ -1002,11 +1021,9 @@ function play_card(listItem) {
             }
         } else {
             if (card_rank == 13) {
-                console.log("TABLEAU 3 - KING TO POSITION 1 ... OK");
-                tableau_3.push(source_array.pop());
-
-                //tableau_3 = source_array.slice(source_item_num, source_array.length -1);
-
+                console.log("TABLEAU 3 - KING TO POSITION 1 ... PASSED");
+                //tableau_3.push(source_array.pop());
+                tableau_3.push(...source_array.splice(source_item_num, source_array.length));
                 destination_array = tableau_3;
                 destination_list = "tableau3List";
                 update_facedown_count(source_list);
@@ -1020,13 +1037,11 @@ function play_card(listItem) {
             var t4_rank = tableau_4.at(-1).rank;
             var t4_colour = tableau_4.at(-1).colour;
             if (t4_rank - card_rank == 1) {
-                console.log("TABLEAU 4 - RANK ... OK");
+                console.log("TABLEAU 4 - RANK CHECK ... PASSED");
                 if (card_colour != t4_colour) {
-                    console.log("TABLEAU 4 - COLOUR ... OK");
-                    tableau_4.push(source_array.pop());
-
-                    //tableau_4 = source_array.slice(source_item_num, source_array.length -1);
-
+                    console.log("TABLEAU 4 - COLOUR CHECK ... PASSED");
+                    //tableau_4.push(source_array.pop());
+                    tableau_4.push(...source_array.splice(source_item_num, source_array.length));
                     destination_array = tableau_4;
                     destination_list = "tableau4List";
                     update_facedown_count(source_list);
@@ -1036,11 +1051,9 @@ function play_card(listItem) {
             }
         } else {
             if (card_rank == 13) {
-                console.log("TABLEAU 4 - KING TO POSITION 1 ... OK");
-                tableau_4.push(source_array.pop());
-
-                //tableau_4 = source_array.slice(source_item_num, source_array.length -1);
-
+                console.log("TABLEAU 4 - KING TO POSITION 1 ... PASSED");
+                //tableau_4.push(source_array.pop());
+                tableau_4.push(...source_array.splice(source_item_num, source_array.length));
                 destination_array = tableau_4;
                 destination_list = "tableau4List";
                 update_facedown_count(source_list);
@@ -1054,13 +1067,11 @@ function play_card(listItem) {
             var t5_rank = tableau_5.at(-1).rank;
             var t5_colour = tableau_5.at(-1).colour;
             if (t5_rank - card_rank == 1) {
-                console.log("TABLEAU 5 - RANK ... OK");
+                console.log("TABLEAU 5 - RANK CHECK ... PASSED");
                 if (card_colour != t5_colour) {
-                    console.log("TABLEAU 5 - COLOUR ... OK");
-                    tableau_5.push(source_array.pop());
-
-                    //tableau_5 = source_array.slice(source_item_num, source_array.length -1);
-
+                    console.log("TABLEAU 5 - COLOUR CHECK ... PASSED");
+                    //tableau_5.push(source_array.pop());
+                    tableau_5.push(...source_array.splice(source_item_num, source_array.length));
                     destination_array = tableau_5;
                     destination_list = "tableau5List";
                     update_facedown_count(source_list);
@@ -1070,14 +1081,12 @@ function play_card(listItem) {
             }
         } else {
             if (card_rank == 13) {
-                console.log("TABLEAU 5 - KING TO POSITION 1 ... OK");
-                tableau_5.push(source_array.pop());
-
-                //tableau_5 = source_array.slice(source_item_num, source_array.length -1);
-
+                console.log("TABLEAU 5 - KING TO POSITION 1 ... PASSED");
+                //tableau_5.push(source_array.pop());
+                tableau_5.push(...source_array.splice(source_item_num, source_array.length));
                 destination_array = tableau_5;
                 destination_list = "tableau5List";
-                update_facedown_count(source_array.toString());
+                update_facedown_count(source_list);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
@@ -1088,13 +1097,11 @@ function play_card(listItem) {
             var t6_rank = tableau_6.at(-1).rank;
             var t6_colour = tableau_6.at(-1).colour;
             if (t6_rank - card_rank == 1) {
-                console.log("TABLEAU 6 - RANK ... OK");
+                console.log("TABLEAU 6 - RANK CHECK ... PASSED");
                 if (card_colour != t6_colour) {
-                    console.log("TABLEAU 6 - COLOUR ... OK");
-                    tableau_6.push(source_array.pop());
-
-                    //tableau_6 = source_array.slice(source_item_num, source_array.length -1);
-
+                    console.log("TABLEAU 6 - COLOUR CHECK ... PASSED");
+                    //tableau_6.push(source_array.pop());
+                    tableau_6.push(...source_array.splice(source_item_num, source_array.length));
                     destination_array = tableau_6;
                     destination_list = "tableau6List";
                     update_facedown_count(source_list);
@@ -1104,11 +1111,9 @@ function play_card(listItem) {
             }
         } else {
             if (card_rank == 13) {
-                console.log("TABLEAU 6 - KING TO POSITION 1 ... OK");
-                tableau_6.push(source_array.pop());
-
-                //tableau_6 = source_array.slice(source_item_num, source_array.length -1);
-
+                console.log("TABLEAU 6 - KING TO POSITION 1 ... PASSED");
+                //tableau_6.push(source_array.pop());
+                tableau_6.push(...source_array.splice(source_item_num, source_array.length));
                 destination_array = tableau_6;
                 destination_list = "tableau6List";
                 update_facedown_count(source_list);
@@ -1122,27 +1127,23 @@ function play_card(listItem) {
             var t7_rank = tableau_7.at(-1).rank;
             var t7_colour = tableau_7.at(-1).colour;
             if (t7_rank - card_rank == 1) {
-                console.log("TABLEAU 7 - RANK ... OK");
+                console.log("TABLEAU 7 - RANK CHECK ... PASSED");
                 if (card_colour != t7_colour) {
-                    console.log("TABLEAU 7 - COLOUR ... OK");
-                    tableau_7.push(source_array.pop());
-
-                    //tableau_7 = source_array.slice(source_item_num, source_array.length -1);
-
+                    console.log("TABLEAU 7 - COLOUR CHECK ... PASSED");
+                    //tableau_7.push(source_array.pop());
+                    tableau_7.push(...source_array.splice(source_item_num, source_array.length));
                     destination_array = tableau_7;
                     destination_list = "tableau7List";
-                    update_facedown_count(source_array.toString());
+                    update_facedown_count(source_list);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
             }
         } else {
             if (card_rank == 13) {
-                console.log("TABLEAU 7 - KING TO POSITION 1 ... OK");
-                tableau_7.push(source_array.pop());
-
-                //tableau_1 = source_array.slice(source_item_num, source_array.length -1);
-
+                console.log("TABLEAU 7 - KING TO POSITION 1 ... PASSED");
+                //tableau_7.push(source_array.pop());
+                tableau_7.push(...source_array.splice(source_item_num, source_array.length));
                 destination_array = tableau_7;
                 destination_list = "tableau7List";
                 update_facedown_count(source_list);
@@ -1154,49 +1155,62 @@ function play_card(listItem) {
     } catch (error) {
         console.log(error);
     }
-
 }
 
 // update facedown count
-// TODO: add check for location of clicked item in array to determine single or stack card selected
 function update_facedown_count(source) {
     switch (source) {
         case "wasteList":
             break;
         case "tableau2List":
-            tableau2Facedown--;
+            if (tableau_2.length == tableau2Facedown) {
+                tableau2Facedown--;
+            }
             break;
         case "tableau3List":
-            tableau3Facedown--;
+            if (tableau_3.length == tableau3Facedown) {
+                tableau3Facedown--;
+            }
             break;
         case "tableau4List":
-            tableau4Facedown--;
+            if (tableau_4.length == tableau4Facedown) {
+                tableau4Facedown--;
+            }
             break;
         case "tableau5List":
-            tableau5Facedown--;
+            if (tableau_5.length == tableau5Facedown) {
+                tableau5Facedown--;
+            }
             break;
         case "tableau6List":
-            tableau6Facedown--;
+            if (tableau_6.length == tableau6Facedown) {
+                tableau6Facedown--;
+            }
             break;
         case "tableau7List":
-            tableau7Facedown--;
+            if (tableau_7.length == tableau7Facedown) {
+                tableau7Facedown--;
+            }
             break;
         default:
             break;
     }
 }
 
-// update card images
+// update card images in html lists
 function update_card_lists(src_array, src_list, dest_array, dest_list) {
     // card moved
     move_count++;
-    console.log("CARD PLAYED:  MOVE COUNT:" + move_count + "  SOURCE:" + src_list + "   DESTINATION:" + dest_list);
+    console.log("CARD PLAYED ... PASSED");
+    console.log("MOVE COUNT:" + move_count + "  SOURCE:" + src_list + "   DESTINATION:" + dest_list);
+
 
     // TODO: add to player score (klondike or vegas scoring)
 
     // clear source and destination lists
     document.getElementById(src_list).innerHTML = "";
     document.getElementById(dest_list).innerHTML = "";
+
     // rebuild source and destination lists
     display_cards(dest_array, dest_list);
     display_cards(src_array, src_list);
@@ -1204,15 +1218,40 @@ function update_card_lists(src_array, src_list, dest_array, dest_list) {
 
 // stock card clicked event
 function stock_card(listItem) {
+    var restock = false;
     try {
         // check if last stock card
         if (stock.length == 0) {
+            // replenish stock array from talon array
             stock = waste.splice(0);
+
+            // reorder to FIFO
+            stock.reverse();
+
+            // update card images
+            display_cards(stock, "stockList")
+            display_cards(waste, "wasteList")
+
+            // clear empty html waste list
+            document.getElementById("wasteList").innerHTML = "";
+
+        } else if (stock.length == 1) {
+            // stock array length is equal to one, push last card to waste pile
+            waste.push(stock.pop());
+
+            // update card images
+            display_cards(stock, "stockList")
+            display_cards(waste, "wasteList")
+
+            // clear empty html stock list
+            document.getElementById("stockList").innerHTML = "";
+
+        } else {
+            // stock array length is greater tha one, push top card to waste pile
+            waste.push(stock.pop());
+            display_cards(stock, "stockList")
+            display_cards(waste, "wasteList")
         }
-        waste.push(stock.pop());
-        display_cards(stock, "stockList")
-        display_cards(waste, "wasteList")
-        console.log("STOCK:" + stock.length + "  TALON:" + waste.length);
     } catch (error) {
         console.log(error);
     }
