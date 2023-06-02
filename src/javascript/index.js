@@ -62,14 +62,6 @@ var tableau5Facedown = 4;
 var tableau6Facedown = 5;
 var tableau7Facedown = 6;
 
-// facedown card count
-var tableau2Faceup = 1;
-var tableau3Faceup = 1;
-var tableau4Faceup = 1;
-var tableau5Faceup = 1;
-var tableau6Faceup = 1;
-var tableau7Faceup = 1;
-
 // additional variables
 var move_count = 0;
 var klondike_score = 0;
@@ -645,25 +637,25 @@ function display_cards(cards, destination) {
                 break;
             case "clubsList":
                 var li = document.createElement("li");
-                var card_image = '<img src="' + card.image + '">';
+                var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 li.innerHTML = card_image;
                 clubsList.appendChild(li);
                 break;
             case "heartsList":
                 var li = document.createElement("li");
-                var card_image = '<img src="' + card.image + '">';
+                var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 li.innerHTML = card_image;
                 heartsList.appendChild(li);
                 break;
             case "spadesList":
                 var li = document.createElement("li");
-                var card_image = '<img src="' + card.image + '">';
+                var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 li.innerHTML = card_image;
                 spadesList.appendChild(li);
                 break;
             case "diamondsList":
                 var li = document.createElement("li");
-                var card_image = '<img src="' + card.image + '">';
+                var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 li.innerHTML = card_image;
                 diamondsList.appendChild(li);
                 break;
@@ -797,6 +789,22 @@ function play_card(listItem) {
         // get source array info
         var card_position = -1;
         switch (list_name) {
+            case "heartsList":
+                source_array = hearts;
+                source_list = "heartsList";
+                break;
+            case "diamondsList":
+                source_array = diamonds;
+                source_list = "diamondsList";
+                break;
+            case "spadesList":
+                source_array = spades;
+                source_list = "spadesList";
+                break;
+            case "clubsList":
+                source_array = clubs;
+                source_list = "clubsList";
+                break;
             case "wasteList":
                 source_array = waste;
                 source_list = "wasteList";
