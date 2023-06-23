@@ -1,105 +1,150 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="../css/index.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/index.css" />
     <title>Solitare</title>
-</head>
-<body>
-<!-- Header and Game Statistics  -->
-<header>
-    <div>
-        <h1 style="float:left;"><span id="game_type"></span>Solitaire</h1>
-        <p style="float:right;">
-            <label class="btn" for="modal-1">New Game</label>
-            <label class="btn btn--blue" for="modal-2">User Msg Test</label>
+  </head>
+  <body>
+    <!-- Header and Game Statistics  -->
+    <header>
+      <div>
+        <h1 style="float: left"><span id="game_type"></span>Solitaire</h1>
+        <p style="float: right">
+          <label class="btn btn_new" for="modal-1">New Game</label>
+          <label class="btn btn--blue" for="modal-2">User Msg Test</label>
         </p>
-        <p style="float:right; width:8%;">Moves:&nbsp;<span id="moves_count"></span></p>
-        <p style="float:right; width:8%;">Points:&nbsp;<span id="point_count"></span></p>
-        <p style="float:right; width:8%;">Timer:&nbsp;<span id="game_timer"></span></p>
-    </div>
-</header>
+        <p style="float: right; width: 8%">
+          Moves:&nbsp;<span id="moves_count"></span>
+        </p>
+        <p style="float: right; width: 8%">
+          Points:&nbsp;<span id="point_count"></span>
+        </p>
+        <p style="float: right; width: 8%">
+          Timer:&nbsp;<span id="game_timer"></span>
+        </p>
+      </div>
+    </header>
 
-
-<div class="top-wrapper">
-
-    <div class="stockandwaste">
+    <div class="top-wrapper">
+      <div class="stockandwaste">
         <div class="imageContainer" onclick="stock_card()">
-            <ul id="stockList" class="card stackedList"></ul>
-            <img src="../images/icons/stock.png" width="100" height="100" class="overlayImage">
+          <ul id="stockList" class="card stackedList"></ul>
+          <img
+            src="../images/icons/stock.png"
+            width="100"
+            height="100"
+            class="overlayImage"
+          />
         </div>
-
 
         <div class="imageContainer">
-            <ul id="wasteList" class="card stackedList"></ul>
-            <img src="../images/icons/waste.png" width="100" height="100" class="overlayImage">
+          <ul id="wasteList" class="card stackedList"></ul>
+          <img
+            src="../images/icons/waste.png"
+            width="100"
+            height="100"
+            class="overlayImage"
+          />
         </div>
+      </div>
+
+      <div class="foundation">
+        <div class="imageContainer">
+          <ul id="diamondsList" class="card stackedList"></ul>
+          <img
+            src="../images/icons/diamonds.png"
+            width="100"
+            height="100"
+            class="overlayImage"
+          />
+        </div>
+
+        <div class="imageContainer">
+          <ul id="clubsList" class="card stackedList"></ul>
+          <img
+            src="../images/icons/clubs.png"
+            width="100"
+            height="100"
+            class="overlayImage"
+          />
+        </div>
+
+        <div class="imageContainer">
+          <ul id="heartsList" class="card stackedList"></ul>
+          <img
+            src="../images/icons/hearts.png"
+            width="100"
+            height="100"
+            class="overlayImage"
+          />
+        </div>
+
+        <div class="imageContainer">
+          <ul id="spadesList" class="card stackedList"></ul>
+          <img
+            src="../images/icons/spades.png"
+            width="100"
+            height="100"
+            class="overlayImage"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="bottom-wrapper">
+      <div class="tableau">
+        <ul id="tableau1List" class="card fannedList"></ul>
+        <ul id="tableau2List" class="card fannedList"></ul>
+        <ul id="tableau3List" class="card fannedList"></ul>
+        <ul id="tableau4List" class="card fannedList"></ul>
+        <ul id="tableau5List" class="card fannedList"></ul>
+        <ul id="tableau6List" class="card fannedList"></ul>
+        <ul id="tableau7List" class="card fannedList"></ul>
+      </div>
     </div>
 
-
-    <div class="foundation">
-        <div class="imageContainer">
-            <ul id="diamondsList" class="card stackedList"></ul>
-            <img src="../images/icons/diamonds.png" width="100" height="100" class="overlayImage">
-        </div>
-
-        <div class="imageContainer">
-            <ul id="clubsList" class="card stackedList"></ul>
-            <img src="../images/icons/clubs.png" width="100" height="100" class="overlayImage">
-        </div>
-
-        <div class="imageContainer">
-            <ul id="heartsList" class="card stackedList"></ul>
-            <img src="../images/icons/hearts.png" width="100" height="100" class="overlayImage">
-        </div>
-
-        <div class="imageContainer">
-            <ul id="spadesList" class="card stackedList"></ul>
-            <img src="../images/icons/spades.png" width="100" height="100" class="overlayImage">
-        </div>
-    </div>
-
-
-</div>
-<div class="bottom-wrapper">
-    <div class="tableau">
-        <ul id="tableau1List" class=" card fannedList"></ul>
-        <ul id="tableau2List" class=" card fannedList"></ul>
-        <ul id="tableau3List" class=" card fannedList"></ul>
-        <ul id="tableau4List" class=" card fannedList"></ul>
-        <ul id="tableau5List" class=" card fannedList"></ul>
-        <ul id="tableau6List" class=" card fannedList"></ul>
-        <ul id="tableau7List" class=" card fannedList"></ul>
-    </div>
-</div>
-
-
-<!-- Welcome/ New Game Modal  -->
-<input class="modal-state" id="modal-1" type="checkbox" checked/>
-<div class="modal">
-    <label class="modal__bg" for="modal-1"></label>
-    <div class="modal__inner">
+    <!-- Welcome/ New Game Modal  -->
+    <input class="modal-state" id="modal-1" type="checkbox" checked />
+    <div class="modal">
+      <label class="modal__bg" for="modal-1"></label>
+      <div class="modal__inner">
         <!--force use to select game type and close model from btn onclick
         <label class="modal__close" for="modal-1"></label> -->
-        <h2>blah blah blah</h2>
-        <p>yada yada yada</p>
-        <button id="klondike_btn" onclick="document.getElementById('game_type').innerHTML = 'Klondike '; document.getElementById('modal-1').checked = false;">Klondike</button>
-        <button id="vegas_btn" onclick="document.getElementById('game_type').innerHTML = 'Vegas '; document.getElementById('modal-1').checked = false;">Vegas</button>
+        <div>
+          <h2>Welcome to Solitare!</h2>
+          <p>Please choose a game style</p>
+        </div>
+        <div>
+          <button
+            id="klondike_btn"
+            class="btn"
+            onclick="document.getElementById('game_type').innerHTML = 'Klondike '; document.getElementById('modal-1').checked = false;"
+          >
+            Klondike
+          </button>
+          <button
+            id="vegas_btn"
+            class="btn"
+            onclick="document.getElementById('game_type').innerHTML = 'Vegas '; document.getElementById('modal-1').checked = false;"
+          >
+            Vegas
+          </button>
+        </div>
+      </div>
     </div>
-</div>
 
-<!-- User Message Modal -->
-<input class="modal-state" id="modal-2" type="checkbox" />
-<div class="modal">
-    <label class="modal__bg" for="modal-2"></label>
-    <div class="modal__inner">
+    <!-- User Message Modal -->
+    <input class="modal-state" id="modal-2" type="checkbox" />
+    <div class="modal">
+      <label class="modal__bg" for="modal-2"></label>
+      <div class="modal__inner">
         <label class="modal__close" for="modal-2"></label>
         <h2>win win win</h2>
         <p>yada yada yada</p>
+      </div>
     </div>
-</div>
 
-<script src="../javascript/index.js"></script>
-</body>
+    <script src="../javascript/index.js"></script>
+  </body>
 </html>
