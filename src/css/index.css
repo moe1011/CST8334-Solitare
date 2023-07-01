@@ -112,6 +112,7 @@ ul {
   text-align: left;
   background: rgba(0, 0, 0, 0.9);
   transition: opacity 0.5s ease-in-out;
+  z-index: 1;
 }
 
 .modal__bg {
@@ -265,6 +266,10 @@ ul {
 .btn--blue {
   background: #2980b9;
 }
+
+
+
+
 
 .btn--blue:hover,
 .btn--blue:focus {

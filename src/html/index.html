@@ -10,19 +10,19 @@
     <!-- Header and Game Statistics  -->
     <header>
       <div>
-        <h1 style="float: left"><span id="game_type"></span>Solitaire</h1>
+        <h1 style="float: left"><span id="gameTitle"></span>Solitaire</h1>
         <p style="float: right">
           <label class="btn btn_new" for="modal-1">New Game</label>
           <label class="btn btn--blue" for="modal-2">User Msg Test</label>
         </p>
         <p style="float: right; width: 8%">
-          Moves:&nbsp;<span id="moves_count"></span>
+          Moves:&nbsp;<span id="gameMoves">22</span>
         </p>
         <p style="float: right; width: 8%">
-          Points:&nbsp;<span id="point_count"></span>
+          Points:&nbsp;<span id="gamePoints">0</span>
         </p>
         <p style="float: right; width: 8%">
-          Time:&nbsp;<span id="game_timer"></span>
+          Time:&nbsp;<span id="gameTimer">00:00</span>
         </p>
       </div>
     </header>
@@ -30,7 +30,7 @@
     <div class="top-wrapper">
       <div class="stockandwaste">
         <div class="imageContainer" onclick="stock_card()">
-          <ul id="stockList" class="card stackedList"></ul>
+          <ul id="stock_list" class="card stackedList"></ul>
           <img
             src="../images/icons/stock.png"
             width="100"
@@ -40,7 +40,7 @@
         </div>
 
         <div class="imageContainer">
-          <ul id="wasteList" class="card stackedList"></ul>
+          <ul id="waste_list" class="card stackedList"></ul>
           <img
             src="../images/icons/waste.png"
             width="100"
@@ -52,7 +52,7 @@
 
       <div class="foundation">
         <div class="imageContainer">
-          <ul id="diamondsList" class="card stackedList"></ul>
+          <ul id="diamonds_list" class="card stackedList"></ul>
           <img
             src="../images/icons/diamonds.png"
             width="100"
@@ -62,7 +62,7 @@
         </div>
 
         <div class="imageContainer">
-          <ul id="clubsList" class="card stackedList"></ul>
+          <ul id="clubs_list" class="card stackedList"></ul>
           <img
             src="../images/icons/clubs.png"
             width="100"
@@ -72,7 +72,7 @@
         </div>
 
         <div class="imageContainer">
-          <ul id="heartsList" class="card stackedList"></ul>
+          <ul id="hearts_list" class="card stackedList"></ul>
           <img
             src="../images/icons/hearts.png"
             width="100"
@@ -82,7 +82,7 @@
         </div>
 
         <div class="imageContainer">
-          <ul id="spadesList" class="card stackedList"></ul>
+          <ul id="spades_list" class="card stackedList"></ul>
           <img
             src="../images/icons/spades.png"
             width="100"
@@ -94,13 +94,13 @@
     </div>
     <div class="bottom-wrapper">
       <div class="tableau">
-        <ul id="tableau1List" class="card fannedList"></ul>
-        <ul id="tableau2List" class="card fannedList"></ul>
-        <ul id="tableau3List" class="card fannedList"></ul>
-        <ul id="tableau4List" class="card fannedList"></ul>
-        <ul id="tableau5List" class="card fannedList"></ul>
-        <ul id="tableau6List" class="card fannedList"></ul>
-        <ul id="tableau7List" class="card fannedList"></ul>
+        <ul id="tableau1_list" class="card fannedList"></ul>
+        <ul id="tableau2_list" class="card fannedList"></ul>
+        <ul id="tableau3_list" class="card fannedList"></ul>
+        <ul id="tableau4_list" class="card fannedList"></ul>
+        <ul id="tableau5_list" class="card fannedList"></ul>
+        <ul id="tableau6_list" class="card fannedList"></ul>
+        <ul id="tableau7_list" class="card fannedList"></ul>
       </div>
     </div>
 
@@ -116,20 +116,8 @@
           <p>Please choose a game style</p>
         </div>
         <div>
-          <button
-            id="klondike_btn"
-            class="btn"
-            onclick="document.getElementById('game_type').innerHTML = 'Klondike '; document.getElementById('modal-1').checked = false;"
-          >
-            Klondike
-          </button>
-          <button
-            id="vegas_btn"
-            class="btn"
-            onclick="document.getElementById('game_type').innerHTML = 'Vegas '; document.getElementById('modal-1').checked = false;"
-          >
-            Vegas
-          </button>
+          <button id="klondike_btn" class="btn" onclick="newGame(this.id)">Klondike</button>
+          <button id="vegas_btn" class="btn" onclick="newGame(this.id)">Vegas</button>
         </div>
       </div>
     </div>
