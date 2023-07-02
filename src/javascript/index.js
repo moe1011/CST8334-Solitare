@@ -66,7 +66,7 @@ var tableau7_facedown = 6;
 // create document variables for game statistics
 var game_title_label = document.getElementById("gameTitle");
 var game_timer_label = document.getElementById("gameTimer");
-var game_points_label = document.getElementById("gamePoints");
+var game_score_label = document.getElementById("gameScore");
 var game_moves_label = document.getElementById("gameMoves");
 
 var new_game_modal = document.getElementById("modal-1");
@@ -75,7 +75,7 @@ var user_msg_modal = document.getElementById("modal-2");
 /// additional variables
 var move_count = 0;
 var klondike_score = 0;
-var vegas_score = 52;
+var vegas_score = -52;
 var game_type = "";
 var timer;
 
@@ -170,13 +170,13 @@ function newGame(type) {
             game_type = "KLONDIKE"
             game_title_label.innerHTML = "Klondike "
             klondike_score = 0
-            game_points_label.innerHTML = klondike_score;
+            game_score_label.innerHTML = klondike_score;
             break;
         case "vegas_btn":
             game_type = "VEGAS"
             game_title_label.innerHTML = "Vegas "
-            vegas_score = 52
-            game_points_label.innerHTML = vegas_score;
+            vegas_score = -52
+            game_score_label.innerHTML = "$" + vegas_score;
             break;
     }
     game_timer_label.innerHTML = "00:00"
@@ -1000,7 +1000,7 @@ function play_card(listItem) {
                     destination_array = hearts_array;
                     destination_list = "hearts_list";
                     update_facedown_count(source_list);
-                    update_points(source_list, destination_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1020,7 +1020,7 @@ function play_card(listItem) {
                     destination_array = diamonds_array;
                     destination_list = "diamonds_list";
                     update_facedown_count(source_list);
-                    update_points(source_list, destination_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1040,7 +1040,7 @@ function play_card(listItem) {
                     destination_array = spades_array;
                     destination_list = "spades_list";
                     update_facedown_count(source_list);
-                    update_points(source_list, destination_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1060,7 +1060,7 @@ function play_card(listItem) {
                     destination_array = clubs_array;
                     destination_list = "clubs_list";
                     update_facedown_count(source_list);
-                    update_points(source_list, destination_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1085,7 +1085,7 @@ function play_card(listItem) {
                     destination_array = tableau1_array;
                     destination_list = "tableau1_list";
                     update_facedown_count(source_list);
-                    update_points(source_list, destination_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1098,7 +1098,7 @@ function play_card(listItem) {
                 destination_array = tableau1_array;
                 destination_list = "tableau1_list";
                 update_facedown_count(source_list);
-                update_points(source_list, destination_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
@@ -1117,7 +1117,7 @@ function play_card(listItem) {
                     destination_array = tableau2_array;
                     destination_list = "tableau2_list";
                     update_facedown_count(source_list);
-                    update_points(source_list, destination_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1130,7 +1130,7 @@ function play_card(listItem) {
                 destination_array = tableau2_array;
                 destination_list = "tableau2_list";
                 update_facedown_count(source_list);
-                update_points(source_list, destination_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
@@ -1149,7 +1149,7 @@ function play_card(listItem) {
                     destination_array = tableau3_array;
                     destination_list = "tableau3_list";
                     update_facedown_count(source_list);
-                    update_points(source_list, destination_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1162,7 +1162,7 @@ function play_card(listItem) {
                 destination_array = tableau3_array;
                 destination_list = "tableau3_list";
                 update_facedown_count(source_list);
-                update_points(source_list, destination_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
@@ -1181,7 +1181,7 @@ function play_card(listItem) {
                     destination_array = tableau4_array;
                     destination_list = "tableau4_list";
                     update_facedown_count(source_list);
-                    update_points(source_list, destination_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1194,7 +1194,7 @@ function play_card(listItem) {
                 destination_array = tableau4_array;
                 destination_list = "tableau4_list";
                 update_facedown_count(source_list);
-                update_points(source_list, destination_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
@@ -1213,7 +1213,7 @@ function play_card(listItem) {
                     destination_array = tableau5_array;
                     destination_list = "tableau5_list";
                     update_facedown_count(source_list);
-                    update_points(source_list, destination_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1226,7 +1226,7 @@ function play_card(listItem) {
                 destination_array = tableau5_array;
                 destination_list = "tableau5_list";
                 update_facedown_count(source_list);
-                update_points(source_list, destination_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
@@ -1245,7 +1245,7 @@ function play_card(listItem) {
                     destination_array = tableau6_array;
                     destination_list = "tableau6_list";
                     update_facedown_count(source_list);
-                    update_points(source_list, destination_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1258,7 +1258,7 @@ function play_card(listItem) {
                 destination_array = tableau6_array;
                 destination_list = "tableau6_list";
                 update_facedown_count(source_list);
-                update_points(source_list, destination_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
@@ -1277,7 +1277,7 @@ function play_card(listItem) {
                     destination_array = tableau7_array;
                     destination_list = "tableau7_list";
                     update_facedown_count(source_list);
-                    update_points(source_list, destination_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1290,7 +1290,7 @@ function play_card(listItem) {
                 destination_array = tableau7_array;
                 destination_list = "tableau7_list";
                 update_facedown_count(source_list);
-                update_points(source_list, destination_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
@@ -1302,14 +1302,9 @@ function play_card(listItem) {
 
 
 // TODO refactoring play card function and check order based on source pile (re:max points)
-function check_foundations() {}
-function check_tableau1() {}
-function check_tableau2() {}
-function check_tableau3() {}
-function check_tableau4() {}
-function check_tableau5() {}
-function check_tableau6() {}
-function check_tableau7() {}
+function check_foundation() {}
+function check_tableau() {}
+
 
 
 
@@ -1321,37 +1316,37 @@ function update_facedown_count(source) {
         case "tableau2_list":
             if (tableau2_array.length == tableau2_facedown) {
                 tableau2_facedown--;
-                update_points(source, "FLIP-CARD");
+                update_points(source, "FLIP-CARD", false);
             }
             break;
         case "tableau3_list":
             if (tableau3_array.length == tableau3_facedown) {
                 tableau3_facedown--;
-                update_points(source, "FLIP-CARD");
+                update_points(source, "FLIP-CARD", false);
             }
             break;
         case "tableau4_list":
             if (tableau4_array.length == tableau4_facedown) {
                 tableau4_facedown--;
-                update_points(source, "FLIP-CARD");
+                update_points(source, "FLIP-CARD", false);
             }
             break;
         case "tableau5_list":
             if (tableau5_array.length == tableau5_facedown) {
                 tableau5_facedown--;
-                update_points(source, "FLIP-CARD");
+                update_points(source, "FLIP-CARD", false);
             }
             break;
         case "tableau6_list":
             if (tableau6_array.length == tableau6_facedown) {
                 tableau6_facedown--;
-                update_points(source, "FLIP-CARD");
+                update_points(source, "FLIP-CARD", false);
             }
             break;
         case "tableau7_list":
             if (tableau7_array.length == tableau7_facedown) {
                 tableau7_facedown--;
-                update_points(source, "FLIP-CARD");
+                update_points(source, "FLIP-CARD", false);
             }
             break;
         default:
@@ -1378,6 +1373,17 @@ function stock_card(listItem) {
         // check if last stock_array card
         if (stock_array.length == 0) {
 
+
+            // check if waste_array == 0 (WIN EVENT)
+            if (waste_array.length == 0) {
+                // open user message modal
+                user_msg_modal.checked = true;
+
+                // open new game modal
+                new_game_modal.checked = true;
+            }
+
+
             // replenish stock_array array from talon array
             stock_array = waste_array.splice(0);
 
@@ -1391,7 +1397,7 @@ function stock_card(listItem) {
             // clear empty html waste_array list
             document.getElementById("waste_list").innerHTML = "";
 
-            update_points("waste_list", "stock_list");
+            update_points("waste_list", "stock_list", false);
 
         } else if (stock_array.length == 1) {
             // stock_array array length is equal to one, push last card to waste_array pile
@@ -1419,7 +1425,7 @@ function stock_card(listItem) {
 
 
 // calculate points
-function update_points(source, destination) {
+function update_points(source, destination, card_moved) {
     var src = "";
     var dest = "";
     // determine source
@@ -1526,6 +1532,7 @@ function update_points(source, destination) {
                             vegas_score += 5;
                             break;
                     }
+                    break;
                 case "tableau1_list":
                 case "tableau2_list":
                 case "tableau3_list":
@@ -1564,12 +1571,16 @@ function update_points(source, destination) {
     // update controls
     switch (game_type) {
         case "KLONDIKE":
-            game_points_label.innerHTML = klondike_score;
+            game_score_label.innerHTML = klondike_score;
             break;
         case "VEGAS":
-            game_points_label.innerHTML = vegas_score;
+            game_score_label.innerHTML = "$" + vegas_score;
             break;
     }
-    move_count++;
-    game_moves_label.innerHTML = move_count;
+
+    if (card_moved == true) {
+        move_count++;
+        game_moves_label.innerHTML = move_count;
+    }
+
 }
