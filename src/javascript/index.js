@@ -1426,6 +1426,9 @@ function stock_card(listItem) {
 
 // calculate points
 function update_points(source, destination, card_moved) {
+    console.log("1. SRC: " + source);
+    console.log("1. DEST: " + destination);
+    console.log("1. MOVE: " + card_moved + "  NUM: " + move_count);
     var src = "";
     var dest = "";
     // determine source
@@ -1477,6 +1480,8 @@ function update_points(source, destination, card_moved) {
                             vegas_score += 5;
                             break;
                     }
+                    dest = "FOUNDATION";
+                    break;
                 case "tableau1_list":
                 case "tableau2_list":
                 case "tableau3_list":
@@ -1505,7 +1510,7 @@ function update_points(source, destination, card_moved) {
                             vegas_score -= 50;
                             break;
                     }
-                    dest = "TABLEAU";
+                    dest = "STOCK";
                     break;
             }
             src = "WASTE";
@@ -1532,6 +1537,7 @@ function update_points(source, destination, card_moved) {
                             vegas_score += 5;
                             break;
                     }
+                    dest = "FOUNDATION";
                     break;
                 case "tableau1_list":
                 case "tableau2_list":
@@ -1561,7 +1567,7 @@ function update_points(source, destination, card_moved) {
                             vegas_score += 5;
                             break;
                     }
-                    dest = "TABLEAU";
+                    dest = "FLIP-CARD";
                     break;
             }
             src = "TABLEAU";
@@ -1582,5 +1588,7 @@ function update_points(source, destination, card_moved) {
         move_count++;
         game_moves_label.innerHTML = move_count;
     }
-
+    console.log("2. SRC: " + src);
+    console.log("2. DEST: " + dest);
+    console.log("2. MOVE: " + card_moved + "  NUM: " + move_count);
 }
