@@ -3,8 +3,9 @@
 /* CST8334-SOLITAIRE
 
 */
-
+// /////////////////
 // DECLARE VARIABLES
+// /////////////////
 
 // create card deck
 var deck = {
@@ -18,87 +19,195 @@ var deck = {
     shuffled: []
 };
 
-// create stock pile
-var stock = [];
+// create stock_array pile
+var stock_array = [];
 
-// create waste pile
-var waste = [];
+// create waste_array pile
+var waste_array = [];
 
 // create foundation piles
-var clubs = [];
-var hearts = [];
-var spades = [];
-var diamonds = [];
+var clubs_array = [];
+var hearts_array = [];
+var spades_array = [];
+var diamonds_array = [];
 
 // create tableau piles
-var tableau_1 = [];
-var tableau_2 = [];
-var tableau_3 = [];
-var tableau_4 = [];
-var tableau_5 = [];
-var tableau_6 = [];
-var tableau_7 = [];
+var tableau1_array = [];
+var tableau2_array = [];
+var tableau3_array = [];
+var tableau4_array = [];
+var tableau5_array = [];
+var tableau6_array = [];
+var tableau7_array = [];
 
-// create document variables
-var stockList = document.getElementById("stockList");
-var wasteList = document.getElementById("wasteList");
-var clubsList = document.getElementById("clubsList");
-var heartsList = document.getElementById("heartsList");
-var spadesList = document.getElementById("spadesList");
-var diamondsList = document.getElementById("diamondsList");
-var tableau1List = document.getElementById("tableau1List");
-var tableau2List = document.getElementById("tableau2List");
-var tableau3List = document.getElementById("tableau3List");
-var tableau4List = document.getElementById("tableau4List");
-var tableau5List = document.getElementById("tableau5List");
-var tableau6List = document.getElementById("tableau6List");
-var tableau7List = document.getElementById("tableau7List");
+// create document variables for cards
+var stock_list = document.getElementById("stock_list");
+var waste_list = document.getElementById("waste_list");
+var clubs_list = document.getElementById("clubs_list");
+var hearts_list = document.getElementById("hearts_list");
+var spades_list = document.getElementById("spades_list");
+var diamonds_list = document.getElementById("diamonds_list");
+var tableau1_list = document.getElementById("tableau1_list");
+var tableau2_list = document.getElementById("tableau2_list");
+var tableau3_list = document.getElementById("tableau3_list");
+var tableau4_list = document.getElementById("tableau4_list");
+var tableau5_list = document.getElementById("tableau5_list");
+var tableau6_list = document.getElementById("tableau6_list");
+var tableau7_list = document.getElementById("tableau7_list");
 
-// facedown card count
-var tableau2Facedown = 1;
-var tableau3Facedown = 2;
-var tableau4Facedown = 3;
-var tableau5Facedown = 4;
-var tableau6Facedown = 5;
-var tableau7Facedown = 6;
+// face-down card count
+var tableau2_facedown = 1;
+var tableau3_facedown = 2;
+var tableau4_facedown = 3;
+var tableau5_facedown = 4;
+var tableau6_facedown = 5;
+var tableau7_facedown = 6;
 
-// additional variables
+// create document variables for game statistics
+var game_title_label = document.getElementById("gameTitle");
+var game_timer_label = document.getElementById("gameTimer");
+var game_score_label = document.getElementById("gameScore");
+var game_moves_label = document.getElementById("gameMoves");
+
+var new_game_modal = document.getElementById("modal-1");
+var user_msg_modal = document.getElementById("modal-2");
+
+/// additional variables
 var move_count = 0;
 var klondike_score = 0;
-var vegas_score = 52
+var vegas_score = -52;
+var game_type = "";
+var timer;
 
 
-// GAME PLAY
+// //////////
+// START GAME
+// //////////
 
-// Create Deck
+// create deck
 create(deck);
+// open game type modal
+new_game_modal.checked = true;
 
-// Shuffle
-shuffle(deck);
+// //////////////////
+// READY FOR GAMEPLAY
+// //////////////////
 
-// Deal Cards
-deal(deck);
 
-// Display Cards
-display_cards(stock, "stockList");
-display_cards(tableau_1, "tableau1List");
-display_cards(tableau_2, "tableau2List");
-display_cards(tableau_3, "tableau3List");
-display_cards(tableau_4, "tableau4List");
-display_cards(tableau_5, "tableau5List");
-display_cards(tableau_6, "tableau6List");
-display_cards(tableau_7, "tableau7List");
-
-// greeting (alert or html model element?)
-//greeting();
-
+// /////////
 // FUNCTIONS
+// /////////
 
 
-function greeting() {
-    alert("CST8334:  SOFTWARE DEVELOPMENT PROJECT:  SOLITAIRE GAME \nINSTRUCTOR: Moe Osman \nSUBMITTED BY: \n" +
-        "Hisham Abdelmouneim - 041059881 \nMohammad Abdulla – 040986025 \nRudwan Alkawlani - 041078124 \n" +
-        "Abdulkawi Alattab - 041049970 \nBrian Boldt – 040226834 ");
+
+// start game timer
+function startTimer() {
+    var second = 0;
+    function upTimer ( count ) { return count > 9 ? count : "0" + count; }
+
+    timer = setInterval( function(){
+        game_timer_label.innerHTML = upTimer(parseInt(second/60, 10)) + ":" + upTimer(++second % 60);
+    }, 1000);
+}
+
+function stopTimer() {clearInterval(timer);}
+
+// reset game table
+function resetGameTable () {
+
+    // clear stock_array pile
+    stock_array = [];
+
+    // clear waste_array pile
+    waste_array = [];
+
+    // clear foundation piles
+    clubs_array = [];
+    hearts_array = [];
+    spades_array = [];
+    diamonds_array = [];
+
+    // clear tableau piles
+    tableau1_array = [];
+    tableau2_array = [];
+    tableau3_array = [];
+    tableau4_array = [];
+    tableau5_array = [];
+    tableau6_array = [];
+    tableau7_array = [];
+
+    // clear document variables for cards
+    stock_list.innerHTML = "";
+    waste_list.innerHTML = "";
+    clubs_list.innerHTML = "";
+    hearts_list.innerHTML = "";
+    spades_list.innerHTML = "";
+    diamonds_list.innerHTML = "";
+    tableau1_list.innerHTML = "";
+    tableau2_list.innerHTML = "";
+    tableau3_list.innerHTML = "";
+    tableau4_list.innerHTML = "";
+    tableau5_list.innerHTML = "";
+    tableau6_list.innerHTML = "";
+    tableau7_list.innerHTML = "";
+
+    // reset face-down card count
+    tableau2_facedown = 1;
+    tableau3_facedown = 2;
+    tableau4_facedown = 3;
+    tableau5_facedown = 4;
+    tableau6_facedown = 5;
+    tableau7_facedown = 6;
+}
+
+// begin new game
+function newGame(type) {
+    // GAME PLAY
+
+    // determine type selected and set controls
+    switch (type) {
+        case "klondike_btn":
+            game_type = "KLONDIKE"
+            game_title_label.innerHTML = "Klondike "
+            klondike_score = 0
+            game_score_label.innerHTML = klondike_score;
+            break;
+        case "vegas_btn":
+            game_type = "VEGAS"
+            game_title_label.innerHTML = "Vegas "
+            vegas_score = -52
+            game_score_label.innerHTML = "$" + vegas_score;
+            break;
+    }
+    game_timer_label.innerHTML = "00:00"
+    move_count = 0;
+    game_moves_label.innerHTML = move_count;
+
+    // reset card deck and table
+    resetGameTable();
+
+    // shuffle
+    shuffle(deck);
+
+    // deal cards
+    deal(deck);
+
+    // display cards
+    display_cards(stock_array, "stock_list");
+    display_cards(tableau1_array, "tableau1_list");
+    display_cards(tableau2_array, "tableau2_list");
+    display_cards(tableau3_array, "tableau3_list");
+    display_cards(tableau4_array, "tableau4_list");
+    display_cards(tableau5_array, "tableau5_list");
+    display_cards(tableau6_array, "tableau6_list");
+    display_cards(tableau7_array, "tableau7_list");
+
+    // close modal
+    new_game_modal.checked = false;
+
+    // re-start timer
+    stopTimer();
+    startTimer();
 }
 
 // create deck
@@ -569,49 +678,49 @@ function shuffle(deck) {
 function deal(deck) {
     if (deck.shuffled.length == 52) {
         // simulate dealing row 1
-        tableau_1.push(deck.shuffled.pop());
-        tableau_2.push(deck.shuffled.pop());
-        tableau_3.push(deck.shuffled.pop());
-        tableau_4.push(deck.shuffled.pop());
-        tableau_5.push(deck.shuffled.pop());
-        tableau_6.push(deck.shuffled.pop());
-        tableau_7.push(deck.shuffled.pop());
+        tableau1_array.push(deck.shuffled.pop());
+        tableau2_array.push(deck.shuffled.pop());
+        tableau3_array.push(deck.shuffled.pop());
+        tableau4_array.push(deck.shuffled.pop());
+        tableau5_array.push(deck.shuffled.pop());
+        tableau6_array.push(deck.shuffled.pop());
+        tableau7_array.push(deck.shuffled.pop());
 
         // simulate dealing row 2
-        tableau_2.push(deck.shuffled.pop());
-        tableau_3.push(deck.shuffled.pop());
-        tableau_4.push(deck.shuffled.pop());
-        tableau_5.push(deck.shuffled.pop());
-        tableau_6.push(deck.shuffled.pop());
-        tableau_7.push(deck.shuffled.pop());
+        tableau2_array.push(deck.shuffled.pop());
+        tableau3_array.push(deck.shuffled.pop());
+        tableau4_array.push(deck.shuffled.pop());
+        tableau5_array.push(deck.shuffled.pop());
+        tableau6_array.push(deck.shuffled.pop());
+        tableau7_array.push(deck.shuffled.pop());
 
         // simulate dealing row 3
-        tableau_3.push(deck.shuffled.pop());
-        tableau_4.push(deck.shuffled.pop());
-        tableau_5.push(deck.shuffled.pop());
-        tableau_6.push(deck.shuffled.pop());
-        tableau_7.push(deck.shuffled.pop());
+        tableau3_array.push(deck.shuffled.pop());
+        tableau4_array.push(deck.shuffled.pop());
+        tableau5_array.push(deck.shuffled.pop());
+        tableau6_array.push(deck.shuffled.pop());
+        tableau7_array.push(deck.shuffled.pop());
 
         // simulate dealing row 4
-        tableau_4.push(deck.shuffled.pop());
-        tableau_5.push(deck.shuffled.pop());
-        tableau_6.push(deck.shuffled.pop());
-        tableau_7.push(deck.shuffled.pop());
+        tableau4_array.push(deck.shuffled.pop());
+        tableau5_array.push(deck.shuffled.pop());
+        tableau6_array.push(deck.shuffled.pop());
+        tableau7_array.push(deck.shuffled.pop());
 
         // simulate dealing row 5
-        tableau_5.push(deck.shuffled.pop());
-        tableau_6.push(deck.shuffled.pop());
-        tableau_7.push(deck.shuffled.pop());
+        tableau5_array.push(deck.shuffled.pop());
+        tableau6_array.push(deck.shuffled.pop());
+        tableau7_array.push(deck.shuffled.pop());
 
         // simulate dealing row 6
-        tableau_6.push(deck.shuffled.pop());
-        tableau_7.push(deck.shuffled.pop());
+        tableau6_array.push(deck.shuffled.pop());
+        tableau7_array.push(deck.shuffled.pop());
 
         // simulate dealing row 7
-        tableau_7.push(deck.shuffled.pop());
+        tableau7_array.push(deck.shuffled.pop());
 
         // remaining cards to stockpile
-        stock = deck.shuffled.splice(0);
+        stock_array = deck.shuffled.splice(0);
     }
 
 }
@@ -623,120 +732,120 @@ function display_cards(cards, destination) {
 
     cards.forEach((card) => {
         switch (destination) {
-            case "stockList":
+            case "stock_list":
                 var li = document.createElement("li");
                 var card_image = '<img src="' + deck.back[0].image + '" onclick="stock_card(this); event.stopPropagation()">';
                 li.innerHTML = card_image;
-                stockList.appendChild(li);
+                stock_list.appendChild(li);
                 break;
-            case "wasteList":
+            case "waste_list":
                 var li = document.createElement("li");
                 var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 li.innerHTML = card_image;
-                wasteList.appendChild(li);
+                waste_list.appendChild(li);
                 break;
-            case "clubsList":
+            case "clubs_list":
                 var li = document.createElement("li");
                 var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 li.innerHTML = card_image;
-                clubsList.appendChild(li);
+                clubs_list.appendChild(li);
                 break;
-            case "heartsList":
+            case "hearts_list":
                 var li = document.createElement("li");
                 var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 li.innerHTML = card_image;
-                heartsList.appendChild(li);
+                hearts_list.appendChild(li);
                 break;
-            case "spadesList":
+            case "spades_list":
                 var li = document.createElement("li");
                 var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 li.innerHTML = card_image;
-                spadesList.appendChild(li);
+                spades_list.appendChild(li);
                 break;
-            case "diamondsList":
+            case "diamonds_list":
                 var li = document.createElement("li");
                 var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 li.innerHTML = card_image;
-                diamondsList.appendChild(li);
+                diamonds_list.appendChild(li);
                 break;
-            case "tableau1List":
+            case "tableau1_list":
                 var li = document.createElement("li");
                 var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 li.innerHTML = card_image;
-                tableau1List.appendChild(li);
+                tableau1_list.appendChild(li);
                 break;
-            case "tableau2List":
+            case "tableau2_list":
                 var li = document.createElement("li");
 
                 //if (counter < cards_length - 1) {
-                if (counter < tableau2Facedown) {
+                if (counter < tableau2_facedown) {
                     var card_image = '<img src="' + deck.back[0].image + '">';
                 } else {
                     var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 }
                 li.innerHTML = card_image;
-                tableau2List.appendChild(li);
+                tableau2_list.appendChild(li);
                 counter++;
                 break;
-            case "tableau3List":
+            case "tableau3_list":
                 var li = document.createElement("li");
 
-                if (counter < tableau3Facedown) {
+                if (counter < tableau3_facedown) {
                     var card_image = '<img src="' + deck.back[0].image + '">';
                 } else {
                     var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 }
                 li.innerHTML = card_image;
-                tableau3List.appendChild(li);
+                tableau3_list.appendChild(li);
                 counter++;
                 break;
-            case "tableau4List":
+            case "tableau4_list":
                 var li = document.createElement("li");
 
-                if (counter < tableau4Facedown) {
+                if (counter < tableau4_facedown) {
                     var card_image = '<img src="' + deck.back[0].image + '">';
                 } else {
                     var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 }
                 li.innerHTML = card_image;
-                tableau4List.appendChild(li);
+                tableau4_list.appendChild(li);
                 counter++;
                 break;
-            case "tableau5List":
+            case "tableau5_list":
                 var li = document.createElement("li");
 
-                if (counter < tableau5Facedown){
+                if (counter < tableau5_facedown){
                     var card_image = '<img src="' + deck.back[0].image + '">';
                 } else {
                     var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 }
                 li.innerHTML = card_image;
-                tableau5List.appendChild(li);
+                tableau5_list.appendChild(li);
                 counter++;
                 break;
-            case "tableau6List":
+            case "tableau6_list":
                 var li = document.createElement("li");
 
-                if (counter < tableau6Facedown){
+                if (counter < tableau6_facedown){
                     var card_image = '<img src="' + deck.back[0].image + '">';
                 } else {
                     var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
                 }
                 li.innerHTML = card_image;
-                tableau6List.appendChild(li);
+                tableau6_list.appendChild(li);
                 counter++;
                 break;
-            case "tableau7List":
+            case "tableau7_list":
                 var li = document.createElement("li");
 
-                if (counter < tableau7Facedown) {
+                if (counter < tableau7_facedown) {
                     var card_image = '<img src="' + deck.back[0].image + '">';
                 } else {
                     var card_image = '<img src="' + card.image + '" onclick="play_card(this)">'
                 }
 
                 li.innerHTML = card_image;
-                tableau7List.appendChild(li);
+                tableau7_list.appendChild(li);
                 counter++;
                 break;
             default:
@@ -744,10 +853,10 @@ function display_cards(cards, destination) {
         }
     });
     /*
-    if (destination == "stockList") {
+    if (destination == "stock_list") {
         console.table(cards);
     }
-    if (destination == "wasteList") {
+    if (destination == "waste_list") {
         console.table(cards);
     }
     */
@@ -756,13 +865,17 @@ function display_cards(cards, destination) {
 // play card
 function play_card(listItem) {
     try {
+        // //////////////////////
+        // Get selected card data
+        // //////////////////////
+
         // get listname of clicked image item
         var list_name = listItem.parentNode.parentNode.getAttribute("id");
-        var source_array = "";
+        var source_array = [];
         var source_list = "";
         var source_multi_selected = false;
         var source_item_num = -1;
-        var destination_array = "";
+        var destination_array = [];
         var destination_list = "";
 
         var filename = ""
@@ -783,109 +896,111 @@ function play_card(listItem) {
         var card_value = deck.cards[card_num].value;
         var card_colour = deck.cards[card_num].colour;
 
-        console.log("****** NEW CARD SELECTED******")
+        console.log("****** NEW CARD SELECTED ******")
         console.log("CARD NUM:" + card_num + "  RANK:" + card_rank + "  VALUE:" + card_value + "  SUIT:" + card_suit + "  COLOUR:" + card_colour);
 
         // get source array info
         var card_position = -1;
         switch (list_name) {
-            case "heartsList":
-                source_array = hearts;
-                source_list = "heartsList";
+            case "hearts_list":
+                source_array = hearts_array;
+                source_list = "hearts_list";
                 break;
-            case "diamondsList":
-                source_array = diamonds;
-                source_list = "diamondsList";
+            case "diamonds_list":
+                source_array = diamonds_array;
+                source_list = "diamonds_list";
                 break;
-            case "spadesList":
-                source_array = spades;
-                source_list = "spadesList";
+            case "spades_list":
+                source_array = spades_array;
+                source_list = "spades_list";
                 break;
-            case "clubsList":
-                source_array = clubs;
-                source_list = "clubsList";
+            case "clubs_list":
+                source_array = clubs_array;
+                source_list = "clubs_list";
                 break;
-            case "wasteList":
-                source_array = waste;
-                source_list = "wasteList";
+            case "waste_list":
+                source_array = waste_array;
+                source_list = "waste_list";
                 break;
-            case "tableau1List":
-                source_array = tableau_1;
-                source_list = "tableau1List";
-                source_item_num = tableau_1.findIndex(x => x.card_number == card_num);
-                if (source_item_num < tableau_1.length - 1) {
+            case "tableau1_list":
+                source_array = tableau1_array;
+                source_list = "tableau1_list";
+                source_item_num = tableau1_array.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau1_array.length - 1) {
                     source_multi_selected = true; 
                 }
                 break;
-            case "tableau2List":
-                source_array = tableau_2;
-                source_list = "tableau2List";
-                source_item_num = tableau_2.findIndex(x => x.card_number == card_num);
-                if (source_item_num < tableau_2.length - 1) {
+            case "tableau2_list":
+                source_array = tableau2_array;
+                source_list = "tableau2_list";
+                source_item_num = tableau2_array.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau2_array.length - 1) {
                     source_multi_selected = true; 
                 }
                 break;
-            case "tableau3List":
-                source_array = tableau_3;
-                source_list = "tableau3List";
-                source_item_num = tableau_3.findIndex(x => x.card_number == card_num);
-                if (source_item_num < tableau_2.length - 1) {
+            case "tableau3_list":
+                source_array = tableau3_array;
+                source_list = "tableau3_list";
+                source_item_num = tableau3_array.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau2_array.length - 1) {
                     source_multi_selected = true;
                 }
                 break;
-            case "tableau4List":
-                source_array = tableau_4;
-                source_list = "tableau4List";
-                source_item_num = tableau_4.findIndex(x => x.card_number == card_num);
-                if (source_item_num < tableau_4.length -1) {
+            case "tableau4_list":
+                source_array = tableau4_array;
+                source_list = "tableau4_list";
+                source_item_num = tableau4_array.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau4_array.length -1) {
                     source_multi_selected = true; 
                 }
                 break;
-            case "tableau5List":
-                source_array = tableau_5;
-                source_list = "tableau5List"
-                source_item_num = tableau_5.findIndex(x => x.card_number == card_num);
-                if (source_item_num < tableau_5.length - 1) {
+            case "tableau5_list":
+                source_array = tableau5_array;
+                source_list = "tableau5_list"
+                source_item_num = tableau5_array.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau5_array.length - 1) {
                     source_multi_selected = true; 
                 }
                 break;
-            case "tableau6List":
-                source_array = tableau_6;
-                source_list = "tableau6List";
-                source_item_num = tableau_6.findIndex(x => x.card_number == card_num);
-                if (source_item_num < tableau_6.length - 1) {
+            case "tableau6_list":
+                source_array = tableau6_array;
+                source_list = "tableau6_list";
+                source_item_num = tableau6_array.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau6_array.length - 1) {
                     source_multi_selected = true; 
                 }
                 break;
-            case "tableau7List":
-                source_array = tableau_7;
-                source_list = "tableau7List";
-                source_item_num = tableau_7.findIndex(x => x.card_number == card_num);
-                if (source_item_num < tableau_7.length - 1) {
+            case "tableau7_list":
+                source_array = tableau7_array;
+                source_list = "tableau7_list";
+                source_item_num = tableau7_array.findIndex(x => x.card_number == card_num);
+                if (source_item_num < tableau7_array.length - 1) {
                     source_multi_selected = true; 
                 }
                 break;
         }
 
-        //console.log("MULTI:" + source_multi_selected + "  CARD POSITION:" + source_item_num + "  SOURCE TABLEAU LENGTH:" + source_array.length);
-
+        // /////////////////
         // check foundations
+        // /////////////////
+
         switch (card_suit) {
             case "heart":
                 console.log("CHECKING HEARTS RANK  ...");
                 var heart_rank;
-                if (hearts.length == 0) {
+                if (hearts_array.length == 0) {
                     heart_rank = 0;
                 } else {
-                    heart_rank = hearts.at(-1).rank;
+                    heart_rank = hearts_array.at(-1).rank;
                 }
 
                 if (card_rank - heart_rank == 1) {
                     console.log("HEARTS RANK CHECK ...  PASSED");
-                    hearts.push(source_array.pop());
-                    destination_array = hearts;
-                    destination_list = "heartsList";
+                    hearts_array.push(source_array.pop());
+                    destination_array = hearts_array;
+                    destination_list = "hearts_list";
                     update_facedown_count(source_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -893,18 +1008,19 @@ function play_card(listItem) {
             case "diamond":
                 console.log("CHECKING DIAMONDS RANK  ...");
                 var diamond_rank;
-                if (diamonds.length == 0) {
+                if (diamonds_array.length == 0) {
                     diamond_rank = 0;
                 } else {
-                    diamond_rank = diamonds.at(-1).rank;
+                    diamond_rank = diamonds_array.at(-1).rank;
                 }
 
                 if (card_rank - diamond_rank == 1) {
                     console.log("DIAMONDS RANK CHECK ...  PASSED");
-                    diamonds.push(source_array.pop());
-                    destination_array = diamonds;
-                    destination_list = "diamondsList";
+                    diamonds_array.push(source_array.pop());
+                    destination_array = diamonds_array;
+                    destination_list = "diamonds_list";
                     update_facedown_count(source_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -912,18 +1028,19 @@ function play_card(listItem) {
             case "spade":
                 console.log("CHECKING SPADES RANK  ...");
                 var spade_rank;
-                if (spades.length == 0) {
+                if (spades_array.length == 0) {
                     spade_rank = 0;
                 } else {
-                    spade_rank = spades.at(-1).rank;
+                    spade_rank = spades_array.at(-1).rank;
                 }
 
                 if (card_rank - spade_rank == 1) {
                     console.log("SPADES RANK CHECK ...  PASSED");
-                    spades.push(source_array.pop());
-                    destination_array = spades;
-                    destination_list = "spadesList";
+                    spades_array.push(source_array.pop());
+                    destination_array = spades_array;
+                    destination_list = "spades_list";
                     update_facedown_count(source_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -931,38 +1048,44 @@ function play_card(listItem) {
             case "club":
                 console.log("CHECKING CLUBS RANK  ...");
                 var club_rank;
-                if (clubs.length == 0) {
+                if (clubs_array.length == 0) {
                     club_rank = 0;
                 } else {
-                    club_rank = clubs.at(-1).rank;
+                    club_rank = clubs_array.at(-1).rank;
                 }
 
                 if (card_rank - club_rank == 1) {
                     console.log("CLUBS RANK CHECK ...  PASSED");
-                    clubs.push(source_array.pop());
-                    destination_array = clubs;
-                    destination_list = "clubsList";
+                    clubs_array.push(source_array.pop());
+                    destination_array = clubs_array;
+                    destination_list = "clubs_list";
                     update_facedown_count(source_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
                 break;
         }
 
-        // check tableau_1
-        if (tableau_1.length != 0) {
+        // ///////////////////
+        // Check tableau piles
+        // ///////////////////
+
+        // check tableau1_array
+        if (tableau1_array.length != 0) {
             console.log("CHECKING TABLEAU 1 RANK AND COLOUR ...");
-            var t1_rank = tableau_1.at(-1).rank;
-            var t1_colour = tableau_1.at(-1).colour;
+            var t1_rank = tableau1_array.at(-1).rank;
+            var t1_colour = tableau1_array.at(-1).colour;
             if (t1_rank - card_rank == 1) {
                 console.log("TABLEAU 1 - RANK CHECK ... PASSED");
                 if (card_colour != t1_colour) {
                     console.log("TABLEAU 1 - COLOUR CHECK ... PASSED");
-                    //tableau_1.push(source_array.pop());
-                    tableau_1.push(...source_array.splice(source_item_num, source_array.length));
-                    destination_array = tableau_1;
-                    destination_list = "tableau1List";
+                    //tableau1_array.push(source_array.pop());
+                    tableau1_array.push(...source_array.splice(source_item_num, source_array.length));
+                    destination_array = tableau1_array;
+                    destination_list = "tableau1_list";
                     update_facedown_count(source_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -970,29 +1093,31 @@ function play_card(listItem) {
         } else {
             if (card_rank == 13) {
                 console.log("TABLEAU 1 - KING TO POSITION 1 ... PASSED");
-                //tableau_1.push(source_array.pop());
-                tableau_1.push(...source_array.splice(source_item_num, source_array.length));
-                destination_array = tableau_1;
-                destination_list = "tableau1List";
+                //tableau1_array.push(source_array.pop());
+                tableau1_array.push(...source_array.splice(source_item_num, source_array.length));
+                destination_array = tableau1_array;
+                destination_list = "tableau1_list";
                 update_facedown_count(source_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
         }
-        // check tableau_2
-        if (tableau_2.length != 0) {
+        // check tableau2_array
+        if (tableau2_array.length != 0) {
             console.log("CHECKING TABLEAU 2 RANK AND COLOUR ...");
-            var t2_rank = tableau_2.at(-1).rank;
-            var t2_colour = tableau_2.at(-1).colour;
+            var t2_rank = tableau2_array.at(-1).rank;
+            var t2_colour = tableau2_array.at(-1).colour;
             if (t2_rank - card_rank == 1) {
                 console.log("TABLEAU 2 - RANK CHECK ... PASSED");
                 if (card_colour != t2_colour) {
                     console.log("TABLEAU 2 - COLOUR CHECK ... PASSED");
-                    //tableau_2.push(source_array.pop());
-                    tableau_2.push(...source_array.splice(source_item_num, source_array.length));
-                    destination_array = tableau_2;
-                    destination_list = "tableau2List";
+                    //tableau2_array.push(source_array.pop());
+                    tableau2_array.push(...source_array.splice(source_item_num, source_array.length));
+                    destination_array = tableau2_array;
+                    destination_list = "tableau2_list";
                     update_facedown_count(source_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1000,29 +1125,31 @@ function play_card(listItem) {
         } else {
             if (card_rank == 13) {
                 console.log("TABLEAU 2 - KING TO POSITION 1 ... PASSED");
-                //tableau_2.push(source_array.pop());
-                tableau_2.push(...source_array.splice(source_item_num, source_array.length));
-                destination_array = tableau_2;
-                destination_list = "tableau2List";
+                //tableau2_array.push(source_array.pop());
+                tableau2_array.push(...source_array.splice(source_item_num, source_array.length));
+                destination_array = tableau2_array;
+                destination_list = "tableau2_list";
                 update_facedown_count(source_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
         }
-        // check tableau_3
-        if (tableau_3.length != 0) {
+        // check tableau3_array
+        if (tableau3_array.length != 0) {
             console.log("CHECKING TABLEAU 3 RANK AND COLOUR ...");
-            var t3_rank = tableau_3.at(-1).rank;
-            var t3_colour = tableau_3.at(-1).colour;
+            var t3_rank = tableau3_array.at(-1).rank;
+            var t3_colour = tableau3_array.at(-1).colour;
             if (t3_rank - card_rank == 1) {
                 console.log("TABLEAU 3 - RANK CHECK ... PASSED");
                 if (card_colour != t3_colour) {
                     console.log("TABLEAU 3 - COLOUR CHECK ... PASSED");
-                    //tableau_3.push(source_array.pop());
-                    tableau_3.push(...source_array.splice(source_item_num, source_array.length));
-                    destination_array = tableau_3;
-                    destination_list = "tableau3List";
+                    //tableau3_array.push(source_array.pop());
+                    tableau3_array.push(...source_array.splice(source_item_num, source_array.length));
+                    destination_array = tableau3_array;
+                    destination_list = "tableau3_list";
                     update_facedown_count(source_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1030,29 +1157,31 @@ function play_card(listItem) {
         } else {
             if (card_rank == 13) {
                 console.log("TABLEAU 3 - KING TO POSITION 1 ... PASSED");
-                //tableau_3.push(source_array.pop());
-                tableau_3.push(...source_array.splice(source_item_num, source_array.length));
-                destination_array = tableau_3;
-                destination_list = "tableau3List";
+                //tableau3_array.push(source_array.pop());
+                tableau3_array.push(...source_array.splice(source_item_num, source_array.length));
+                destination_array = tableau3_array;
+                destination_list = "tableau3_list";
                 update_facedown_count(source_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
         }
-        // check tableau_4
-        if (tableau_4.length != 0) {
+        // check tableau4_array
+        if (tableau4_array.length != 0) {
             console.log("CHECKING TABLEAU 4 RANK AND COLOUR ...");
-            var t4_rank = tableau_4.at(-1).rank;
-            var t4_colour = tableau_4.at(-1).colour;
+            var t4_rank = tableau4_array.at(-1).rank;
+            var t4_colour = tableau4_array.at(-1).colour;
             if (t4_rank - card_rank == 1) {
                 console.log("TABLEAU 4 - RANK CHECK ... PASSED");
                 if (card_colour != t4_colour) {
                     console.log("TABLEAU 4 - COLOUR CHECK ... PASSED");
-                    //tableau_4.push(source_array.pop());
-                    tableau_4.push(...source_array.splice(source_item_num, source_array.length));
-                    destination_array = tableau_4;
-                    destination_list = "tableau4List";
+                    //tableau4_array.push(source_array.pop());
+                    tableau4_array.push(...source_array.splice(source_item_num, source_array.length));
+                    destination_array = tableau4_array;
+                    destination_list = "tableau4_list";
                     update_facedown_count(source_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1060,29 +1189,31 @@ function play_card(listItem) {
         } else {
             if (card_rank == 13) {
                 console.log("TABLEAU 4 - KING TO POSITION 1 ... PASSED");
-                //tableau_4.push(source_array.pop());
-                tableau_4.push(...source_array.splice(source_item_num, source_array.length));
-                destination_array = tableau_4;
-                destination_list = "tableau4List";
+                //tableau4_array.push(source_array.pop());
+                tableau4_array.push(...source_array.splice(source_item_num, source_array.length));
+                destination_array = tableau4_array;
+                destination_list = "tableau4_list";
                 update_facedown_count(source_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
         }
-        // check tableau_5
-        if (tableau_5.length != 0) {
+        // check tableau5_array
+        if (tableau5_array.length != 0) {
             console.log("CHECKING TABLEAU 5 RANK AND COLOUR ...");
-            var t5_rank = tableau_5.at(-1).rank;
-            var t5_colour = tableau_5.at(-1).colour;
+            var t5_rank = tableau5_array.at(-1).rank;
+            var t5_colour = tableau5_array.at(-1).colour;
             if (t5_rank - card_rank == 1) {
                 console.log("TABLEAU 5 - RANK CHECK ... PASSED");
                 if (card_colour != t5_colour) {
                     console.log("TABLEAU 5 - COLOUR CHECK ... PASSED");
-                    //tableau_5.push(source_array.pop());
-                    tableau_5.push(...source_array.splice(source_item_num, source_array.length));
-                    destination_array = tableau_5;
-                    destination_list = "tableau5List";
+                    //tableau5_array.push(source_array.pop());
+                    tableau5_array.push(...source_array.splice(source_item_num, source_array.length));
+                    destination_array = tableau5_array;
+                    destination_list = "tableau5_list";
                     update_facedown_count(source_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1090,29 +1221,31 @@ function play_card(listItem) {
         } else {
             if (card_rank == 13) {
                 console.log("TABLEAU 5 - KING TO POSITION 1 ... PASSED");
-                //tableau_5.push(source_array.pop());
-                tableau_5.push(...source_array.splice(source_item_num, source_array.length));
-                destination_array = tableau_5;
-                destination_list = "tableau5List";
+                //tableau5_array.push(source_array.pop());
+                tableau5_array.push(...source_array.splice(source_item_num, source_array.length));
+                destination_array = tableau5_array;
+                destination_list = "tableau5_list";
                 update_facedown_count(source_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
         }
-        // check tableau_6
-        if (tableau_6.length != 0) {
+        // check tableau6_array
+        if (tableau6_array.length != 0) {
             console.log("CHECKING TABLEAU 6 RANK AND COLOUR ...");
-            var t6_rank = tableau_6.at(-1).rank;
-            var t6_colour = tableau_6.at(-1).colour;
+            var t6_rank = tableau6_array.at(-1).rank;
+            var t6_colour = tableau6_array.at(-1).colour;
             if (t6_rank - card_rank == 1) {
                 console.log("TABLEAU 6 - RANK CHECK ... PASSED");
                 if (card_colour != t6_colour) {
                     console.log("TABLEAU 6 - COLOUR CHECK ... PASSED");
-                    //tableau_6.push(source_array.pop());
-                    tableau_6.push(...source_array.splice(source_item_num, source_array.length));
-                    destination_array = tableau_6;
-                    destination_list = "tableau6List";
+                    //tableau6_array.push(source_array.pop());
+                    tableau6_array.push(...source_array.splice(source_item_num, source_array.length));
+                    destination_array = tableau6_array;
+                    destination_list = "tableau6_list";
                     update_facedown_count(source_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1120,29 +1253,31 @@ function play_card(listItem) {
         } else {
             if (card_rank == 13) {
                 console.log("TABLEAU 6 - KING TO POSITION 1 ... PASSED");
-                //tableau_6.push(source_array.pop());
-                tableau_6.push(...source_array.splice(source_item_num, source_array.length));
-                destination_array = tableau_6;
-                destination_list = "tableau6List";
+                //tableau6_array.push(source_array.pop());
+                tableau6_array.push(...source_array.splice(source_item_num, source_array.length));
+                destination_array = tableau6_array;
+                destination_list = "tableau6_list";
                 update_facedown_count(source_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
         }
-        // check tableau_7
-        if (tableau_7.length != 0) {
+        // check tableau7_array
+        if (tableau7_array.length != 0) {
             console.log("CHECKING TABLEAU 7 RANK AND COLOUR ...");
-            var t7_rank = tableau_7.at(-1).rank;
-            var t7_colour = tableau_7.at(-1).colour;
+            var t7_rank = tableau7_array.at(-1).rank;
+            var t7_colour = tableau7_array.at(-1).colour;
             if (t7_rank - card_rank == 1) {
                 console.log("TABLEAU 7 - RANK CHECK ... PASSED");
                 if (card_colour != t7_colour) {
                     console.log("TABLEAU 7 - COLOUR CHECK ... PASSED");
-                    //tableau_7.push(source_array.pop());
-                    tableau_7.push(...source_array.splice(source_item_num, source_array.length));
-                    destination_array = tableau_7;
-                    destination_list = "tableau7List";
+                    //tableau7_array.push(source_array.pop());
+                    tableau7_array.push(...source_array.splice(source_item_num, source_array.length));
+                    destination_array = tableau7_array;
+                    destination_list = "tableau7_list";
                     update_facedown_count(source_list);
+                    update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
                     return;
                 }
@@ -1150,54 +1285,68 @@ function play_card(listItem) {
         } else {
             if (card_rank == 13) {
                 console.log("TABLEAU 7 - KING TO POSITION 1 ... PASSED");
-                //tableau_7.push(source_array.pop());
-                tableau_7.push(...source_array.splice(source_item_num, source_array.length));
-                destination_array = tableau_7;
-                destination_list = "tableau7List";
+                //tableau7_array.push(source_array.pop());
+                tableau7_array.push(...source_array.splice(source_item_num, source_array.length));
+                destination_array = tableau7_array;
+                destination_list = "tableau7_list";
                 update_facedown_count(source_list);
+                update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
                 return;
             }
         }
-
     } catch (error) {
         console.log(error);
     }
 }
 
+
+// TODO refactoring play card function and check order based on source pile (re:max points)
+function check_foundation() {}
+function check_tableau() {}
+
+
+
+
 // update facedown count
 function update_facedown_count(source) {
     switch (source) {
-        case "wasteList":
+        case "waste_list":
             break;
-        case "tableau2List":
-            if (tableau_2.length == tableau2Facedown) {
-                tableau2Facedown--;
+        case "tableau2_list":
+            if (tableau2_array.length == tableau2_facedown) {
+                tableau2_facedown--;
+                update_points(source, "FLIP-CARD", false);
             }
             break;
-        case "tableau3List":
-            if (tableau_3.length == tableau3Facedown) {
-                tableau3Facedown--;
+        case "tableau3_list":
+            if (tableau3_array.length == tableau3_facedown) {
+                tableau3_facedown--;
+                update_points(source, "FLIP-CARD", false);
             }
             break;
-        case "tableau4List":
-            if (tableau_4.length == tableau4Facedown) {
-                tableau4Facedown--;
+        case "tableau4_list":
+            if (tableau4_array.length == tableau4_facedown) {
+                tableau4_facedown--;
+                update_points(source, "FLIP-CARD", false);
             }
             break;
-        case "tableau5List":
-            if (tableau_5.length == tableau5Facedown) {
-                tableau5Facedown--;
+        case "tableau5_list":
+            if (tableau5_array.length == tableau5_facedown) {
+                tableau5_facedown--;
+                update_points(source, "FLIP-CARD", false);
             }
             break;
-        case "tableau6List":
-            if (tableau_6.length == tableau6Facedown) {
-                tableau6Facedown--;
+        case "tableau6_list":
+            if (tableau6_array.length == tableau6_facedown) {
+                tableau6_facedown--;
+                update_points(source, "FLIP-CARD", false);
             }
             break;
-        case "tableau7List":
-            if (tableau_7.length == tableau7Facedown) {
-                tableau7Facedown--;
+        case "tableau7_list":
+            if (tableau7_array.length == tableau7_facedown) {
+                tableau7_facedown--;
+                update_points(source, "FLIP-CARD", false);
             }
             break;
         default:
@@ -1206,14 +1355,7 @@ function update_facedown_count(source) {
 }
 
 // update card images in html lists
-function update_card_lists(src_array, src_list, dest_array, dest_list) {
-    // card moved
-    move_count++;
-    console.log("CARD PLAYED ... PASSED");
-    console.log("MOVE COUNT:" + move_count + "  SOURCE:" + src_list + "   DESTINATION:" + dest_list);
-
-
-    // TODO: add to player score (klondike or vegas scoring)
+function update_card_lists (src_array, src_list, dest_array, dest_list) {
 
     // clear source and destination lists
     document.getElementById(src_list).innerHTML = "";
@@ -1224,44 +1366,229 @@ function update_card_lists(src_array, src_list, dest_array, dest_list) {
     display_cards(src_array, src_list);
 }
 
-// stock card clicked event
+// stock_array card clicked event
 function stock_card(listItem) {
     var restock = false;
     try {
-        // check if last stock card
-        if (stock.length == 0) {
-            // replenish stock array from talon array
-            stock = waste.splice(0);
+        // check if last stock_array card
+        if (stock_array.length == 0) {
+
+
+            // check if waste_array == 0 (WIN EVENT)
+            if (waste_array.length == 0) {
+                // open user message modal
+                user_msg_modal.checked = true;
+
+                // open new game modal
+                new_game_modal.checked = true;
+            }
+
+
+            // replenish stock_array array from talon array
+            stock_array = waste_array.splice(0);
 
             // reorder to FIFO
-            stock.reverse();
+            stock_array.reverse();
 
             // update card images
-            display_cards(stock, "stockList")
-            display_cards(waste, "wasteList")
+            display_cards(stock_array, "stock_list")
+            display_cards(waste_array, "waste_list")
 
-            // clear empty html waste list
-            document.getElementById("wasteList").innerHTML = "";
+            // clear empty html waste_array list
+            document.getElementById("waste_list").innerHTML = "";
 
-        } else if (stock.length == 1) {
-            // stock array length is equal to one, push last card to waste pile
-            waste.push(stock.pop());
+            update_points("waste_list", "stock_list", false);
+
+        } else if (stock_array.length == 1) {
+            // stock_array array length is equal to one, push last card to waste_array pile
+            waste_array.push(stock_array.pop());
 
             // update card images
-            display_cards(stock, "stockList")
-            display_cards(waste, "wasteList")
+            display_cards(stock_array, "stock_list")
+            display_cards(waste_array, "waste_list")
 
-            // clear empty html stock list
-            document.getElementById("stockList").innerHTML = "";
+            // clear empty html stock_array list
+            document.getElementById("stock_list").innerHTML = "";
 
         } else {
-            // stock array length is greater tha one, push top card to waste pile
-            waste.push(stock.pop());
-            display_cards(stock, "stockList")
-            display_cards(waste, "wasteList")
+            // stock_array array length is greater tha one, push top card to waste_array pile
+            waste_array.push(stock_array.pop());
+            display_cards(stock_array, "stock_list")
+            display_cards(waste_array, "waste_list")
         }
     } catch (error) {
         console.log(error);
     }
 
+}
+
+
+
+// calculate points
+function update_points(source, destination, card_moved) {
+    console.log("1. SRC: " + source);
+    console.log("1. DEST: " + destination);
+    console.log("1. MOVE: " + card_moved + "  NUM: " + move_count);
+    var src = "";
+    var dest = "";
+    // determine source
+    switch (source) {
+        case "hearts_list":
+        case "diamonds_list":
+        case "spades_list":
+        case "clubs_list":
+            // determine destination
+            switch (destination) {
+                case "waste_list":
+                    // calculate points (FOUNDATION-WASTE) ?
+                    dest = "WASTE";
+                    break;
+                case "tableau1_list":
+                case "tableau2_list":
+                case "tableau3_list":
+                case "tableau4_list":
+                case "tableau5_list":
+                case "tableau6_list":
+                case "tableau7_list":
+                    // calculate points (FOUNDATION-TABLEAU)
+                    switch (game_type) {
+                        case "KLONDIKE":
+                            klondike_score -= 15;
+                            break;
+                        case "VEGAS":
+                            vegas_score -= 15;
+                            break;
+                    }
+                    dest = "TABLEAU";
+                    break;
+            }
+            src = "FOUNDATION";
+            break;
+        case "waste_list":
+            // determine destination
+            switch (destination) {
+                case "hearts_list":
+                case "diamonds_list":
+                case "spades_list":
+                case "clubs_list":
+                    // calculate points (WASTE-FOUNDATION)
+                    switch (game_type) {
+                        case "KLONDIKE":
+                            klondike_score += 10;
+                            break;
+                        case "VEGAS":
+                            vegas_score += 5;
+                            break;
+                    }
+                    dest = "FOUNDATION";
+                    break;
+                case "tableau1_list":
+                case "tableau2_list":
+                case "tableau3_list":
+                case "tableau4_list":
+                case "tableau5_list":
+                case "tableau6_list":
+                case "tableau7_list":
+                    // calculate points (WASTE-TABLEAU)
+                    switch (game_type) {
+                        case "KLONDIKE":
+                            klondike_score += 5;
+                            break;
+                        case "VEGAS":
+                            vegas_score += 5;
+                            break;
+                    }
+                    dest = "TABLEAU";
+                    break;
+                case "stock_list":
+                    // calculate points (WASTE-STOCK)
+                    switch (game_type) {
+                        case "KLONDIKE":
+                            klondike_score -= 50;
+                            break;
+                        case "VEGAS":
+                            vegas_score -= 50;
+                            break;
+                    }
+                    dest = "STOCK";
+                    break;
+            }
+            src = "WASTE";
+            break;
+        case "tableau1_list":
+        case "tableau2_list":
+        case "tableau3_list":
+        case "tableau4_list":
+        case "tableau5_list":
+        case "tableau6_list":
+        case "tableau7_list":
+            // determine destination
+            switch (destination) {
+                case "hearts_list":
+                case "diamonds_list":
+                case "spades_list":
+                case "clubs_list":
+                    // calculate points (TABLEAU-FOUNDATION)
+                    switch (game_type) {
+                        case "KLONDIKE":
+                            klondike_score += 10;
+                            break;
+                        case "VEGAS":
+                            vegas_score += 5;
+                            break;
+                    }
+                    dest = "FOUNDATION";
+                    break;
+                case "tableau1_list":
+                case "tableau2_list":
+                case "tableau3_list":
+                case "tableau4_list":
+                case "tableau5_list":
+                case "tableau6_list":
+                case "tableau7_list":
+                    // calculate points (TABLEAU-TABLEAU)
+                    switch (game_type) {
+                        case "KLONDIKE":
+                            klondike_score += 5;
+                            break;
+                        case "VEGAS":
+                            vegas_score += 5;
+                            break;
+                    }
+                    dest = "TABLEAU";
+                    break;
+                case "FLIP-CARD":
+                    // calculate points (TABLEAU-TABLEAU)
+                    switch (game_type) {
+                        case "KLONDIKE":
+                            klondike_score += 5;
+                            break;
+                        case "VEGAS":
+                            vegas_score += 5;
+                            break;
+                    }
+                    dest = "FLIP-CARD";
+                    break;
+            }
+            src = "TABLEAU";
+            break;
+    }
+
+    // update controls
+    switch (game_type) {
+        case "KLONDIKE":
+            game_score_label.innerHTML = klondike_score;
+            break;
+        case "VEGAS":
+            game_score_label.innerHTML = "$" + vegas_score;
+            break;
+    }
+
+    if (card_moved == true) {
+        move_count++;
+        game_moves_label.innerHTML = move_count;
+    }
+    console.log("2. SRC: " + src);
+    console.log("2. DEST: " + dest);
+    console.log("2. MOVE: " + card_moved + "  NUM: " + move_count);
 }

@@ -9,11 +9,13 @@ body {
   background-size: cover;
   height: 100%;
   overflow: auto;
+
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-html{
-    overflow: hidden;
-    height: 100%;
+html {
+  overflow: hidden;
+  height: 100%;
 }
 
 .top-wrapper {
@@ -64,8 +66,8 @@ html{
   z-index: -1;
 }
 
-.bottom-wrapper{
-    padding-bottom: 15rem;
+.bottom-wrapper {
+  padding-bottom: 15rem;
 }
 
 .tableau {
@@ -95,4 +97,185 @@ ul {
 
 .fannedList li :last-child {
   height: 12rem;
+}
+
+/* Modal
+ * =============================== */
+.modal {
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.9);
+  transition: opacity 0.5s ease-in-out;
+  z-index: 1;
+}
+
+.modal__bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.modal-state {
+  display: none;
+}
+
+.modal-state:checked + .modal {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-state:checked + .modal .modal__inner {
+  top: 0;
+}
+
+.modal__inner {
+  transition: top 0.5s ease-in-out;
+  position: absolute;
+  top: -20%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  margin: auto;
+  overflow: auto;
+  background: #fff;
+  border-radius: 5px;
+  padding: 1em 2em;
+  height: 50%;
+  text-align: center;
+  
+}
+
+.win_screen {
+  background: rgb(102, 255, 134);
+  background: linear-gradient(
+    150deg,
+    rgba(102, 255, 134, 1) 0%,
+    rgba(101, 214, 255, 1) 100%
+  );
+}
+
+#klondike_btn {
+  background: rgb(144, 233, 255);
+  color: rgb(0, 0, 0);
+  width: 10rem;
+  height: 3rem;
+  font-size: 20px;
+}
+
+#klondike_btn:hover {
+  background: rgb(127, 207, 227);
+}
+
+#vegas_btn {
+  background: rgb(255, 36, 36);
+  color: white;
+  width: 10rem;
+  height: 3rem;
+  font-size: 20px;
+}
+
+#vegas_btn:hover {
+  background: rgb(216, 30, 30);
+}
+
+.modal__close {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  width: 1.1em;
+  height: 1.1em;
+  cursor: pointer;
+}
+
+.modal__close:after,
+.modal__close:before {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 1.5em;
+  background: #000000;
+  display: block;
+  transform: rotate(45deg);
+  left: 50%;
+  margin: -3px 0 0 -1px;
+  top: 0;
+  transition-duration: 100ms;
+}
+
+.modal__close:hover:after,
+.modal__close:hover:before {
+  background: #aaa;
+}
+
+.modal__close:before {
+  transform: rotate(-45deg);
+}
+
+@media screen and (max-width: 768px) {
+  .modal__inner {
+    width: 90%;
+    height: 90%;
+    box-sizing: border-box;
+  }
+}
+
+.btn {
+  cursor: pointer;
+  border-radius: 3px;
+  display: inline-block;
+  padding: 0.5em 1em;
+  border: none;
+  box-shadow: 0px 1px 2px rgb(42, 42, 42);
+  transition-duration: 100ms;
+}
+
+.btn:hover {
+  box-shadow: 0px 0.7px 2px rgb(42, 42, 42);
+}
+
+.btn:active {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+
+/* Other (from online sample)
+ * =============================== */
+.btn_new {
+  background: #27ae60;
+  color: #fff;
+}
+
+.btn_new:hover,
+.btn_new:focus {
+  background: #2ecc71;
+}
+
+.btn_new:active {
+  background: #27ae60;
+}
+
+.btn--blue {
+  background: #2980b9;
+}
+
+
+
+
+
+.btn--blue:hover,
+.btn--blue:focus {
+  background: #3498db;
+}
+
+.btn--blue:active {
+  background: #2980b9;
 }
