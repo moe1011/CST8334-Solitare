@@ -69,25 +69,45 @@ var game_timer_label = document.getElementById("gameTimer");
 var game_score_label = document.getElementById("gameScore");
 var game_moves_label = document.getElementById("gameMoves");
 
+var win_timer_label = document.getElementById("winTimer");
+var win_score_label = document.getElementById("winScore");
+var win_moves_label = document.getElementById("winMoves");
+
+var login_modal = document.getElementById("modal-login");
 var new_game_modal = document.getElementById("modal-1");
 var user_msg_modal = document.getElementById("modal-2");
+var user_modal = document.getElementById("modal-user");
 
-/// additional variables
+// additional variables
 var move_count = 0;
 var klondike_score = 0;
 var vegas_score = -52;
 var game_type = "";
 var timer;
 
+// user login and profile
+var username_input = document.getElementById("username_input");
+var password_input = document.getElementById("password_input");
+var username_nav = document.getElementById("username_nav");
+var user_credits_nav = document.getElementById("user_credits_nav");
+var user_credits_profile = document.getElementById("user_credits_profile");
+var login_logout_nav = document.getElementById("login_logout_nav");
+var username = "";
+var password = "";
+var user_credits = 12;
+var logged_in = false;
 
 // //////////
 // START GAME
 // //////////
 
+
 // create deck
 create(deck);
 // open game type modal
-new_game_modal.checked = true;
+login_modal.checked = true;     // <---
+//user_msg_modal.checked = true
+//new_game_modal.checked = true;
 
 // //////////////////
 // READY FOR GAMEPLAY
@@ -98,22 +118,67 @@ new_game_modal.checked = true;
 // FUNCTIONS
 // /////////
 
+// login
+function login() {
+    var u = username_input.value;
+    var p = password_input.value;
+    if (u.trim().toUpperCase() == "JOHN") {
+        if (p.trim() == "123") {
+            logged_in = true;
+            username = u;
+            password = u;
+            username_nav.innerText = " " + u.toUpperCase() + " ";
+            user_credits_nav.innerText = user_credits.toString();
+            user_credits_profile.innerText = user_credits.toString();
+            login_logout_nav.innerText = "Logout"
+            login_modal.checked = false;
+            new_game_modal.checked = true;
+        }
+    }
+}
 
+// purchase game credits
+function purchase_credits() {
+    const radioButtons = document.querySelectorAll('input[name="credits"]');
+    for (const radioButton of radioButtons) {
+        let breakOption = false;
+        let selected_credits = radioButton.value;
+        switch (radioButton.checked) {
+            case true:
+                selected_credits = radioButton.value;
+                breakOption = true;
+                user_credits = parseInt(user_credits) + parseInt(selected_credits);
+                alert("Payment confirmed. Thank-you for your purchase!");
+                user_credits_nav.innerText = user_credits.toString();
+                user_credits_profile.innerText = user_credits.toString();
+                user_modal.checked = false;
+                break;
+        }
+        if (breakOption) {
+            break;
+        }
+    } //end for
+}
 
-// start game timer
+// start/stop game timer
 function startTimer() {
     var second = 0;
-    function upTimer ( count ) { return count > 9 ? count : "0" + count; }
 
-    timer = setInterval( function(){
-        game_timer_label.innerHTML = upTimer(parseInt(second/60, 10)) + ":" + upTimer(++second % 60);
+    function upTimer(count) {
+        return count > 9 ? count : "0" + count;
+    }
+
+    timer = setInterval(function () {
+        game_timer_label.innerHTML = upTimer(parseInt(second / 60, 10)) + ":" + upTimer(++second % 60);
     }, 1000);
 }
 
-function stopTimer() {clearInterval(timer);}
+function stopTimer() {
+    clearInterval(timer);
+}
 
 // reset game table
-function resetGameTable () {
+function resetGameTable() {
 
     // clear stock_array pile
     stock_array = [];
@@ -182,6 +247,10 @@ function newGame(type) {
     game_timer_label.innerHTML = "00:00"
     move_count = 0;
     game_moves_label.innerHTML = move_count;
+
+    win_timer_label = "";
+    win_score_label = "";
+    win_moves_label = "";
 
     // reset card deck and table
     resetGameTable();
@@ -814,7 +883,7 @@ function display_cards(cards, destination) {
             case "tableau5_list":
                 var li = document.createElement("li");
 
-                if (counter < tableau5_facedown){
+                if (counter < tableau5_facedown) {
                     var card_image = '<img src="' + deck.back[0].image + '">';
                 } else {
                     var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
@@ -826,7 +895,7 @@ function display_cards(cards, destination) {
             case "tableau6_list":
                 var li = document.createElement("li");
 
-                if (counter < tableau6_facedown){
+                if (counter < tableau6_facedown) {
                     var card_image = '<img src="' + deck.back[0].image + '">';
                 } else {
                     var card_image = '<img src="' + card.image + '" onclick="play_card(this)">';
@@ -852,6 +921,8 @@ function display_cards(cards, destination) {
                 break;
         }
     });
+
+
     /*
     if (destination == "stock_list") {
         console.table(cards);
@@ -927,7 +998,7 @@ function play_card(listItem) {
                 source_list = "tableau1_list";
                 source_item_num = tableau1_array.findIndex(x => x.card_number == card_num);
                 if (source_item_num < tableau1_array.length - 1) {
-                    source_multi_selected = true; 
+                    source_multi_selected = true;
                 }
                 break;
             case "tableau2_list":
@@ -935,7 +1006,7 @@ function play_card(listItem) {
                 source_list = "tableau2_list";
                 source_item_num = tableau2_array.findIndex(x => x.card_number == card_num);
                 if (source_item_num < tableau2_array.length - 1) {
-                    source_multi_selected = true; 
+                    source_multi_selected = true;
                 }
                 break;
             case "tableau3_list":
@@ -950,8 +1021,8 @@ function play_card(listItem) {
                 source_array = tableau4_array;
                 source_list = "tableau4_list";
                 source_item_num = tableau4_array.findIndex(x => x.card_number == card_num);
-                if (source_item_num < tableau4_array.length -1) {
-                    source_multi_selected = true; 
+                if (source_item_num < tableau4_array.length - 1) {
+                    source_multi_selected = true;
                 }
                 break;
             case "tableau5_list":
@@ -959,7 +1030,7 @@ function play_card(listItem) {
                 source_list = "tableau5_list"
                 source_item_num = tableau5_array.findIndex(x => x.card_number == card_num);
                 if (source_item_num < tableau5_array.length - 1) {
-                    source_multi_selected = true; 
+                    source_multi_selected = true;
                 }
                 break;
             case "tableau6_list":
@@ -967,7 +1038,7 @@ function play_card(listItem) {
                 source_list = "tableau6_list";
                 source_item_num = tableau6_array.findIndex(x => x.card_number == card_num);
                 if (source_item_num < tableau6_array.length - 1) {
-                    source_multi_selected = true; 
+                    source_multi_selected = true;
                 }
                 break;
             case "tableau7_list":
@@ -975,7 +1046,7 @@ function play_card(listItem) {
                 source_list = "tableau7_list";
                 source_item_num = tableau7_array.findIndex(x => x.card_number == card_num);
                 if (source_item_num < tableau7_array.length - 1) {
-                    source_multi_selected = true; 
+                    source_multi_selected = true;
                 }
                 break;
         }
@@ -1002,6 +1073,7 @@ function play_card(listItem) {
                     update_facedown_count(source_list);
                     update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
+                    win_check();
                     return;
                 }
                 break;
@@ -1022,6 +1094,7 @@ function play_card(listItem) {
                     update_facedown_count(source_list);
                     update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
+                    win_check();
                     return;
                 }
                 break;
@@ -1042,6 +1115,7 @@ function play_card(listItem) {
                     update_facedown_count(source_list);
                     update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
+                    win_check();
                     return;
                 }
                 break;
@@ -1062,6 +1136,7 @@ function play_card(listItem) {
                     update_facedown_count(source_list);
                     update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
+                    win_check();
                     return;
                 }
                 break;
@@ -1087,6 +1162,7 @@ function play_card(listItem) {
                     update_facedown_count(source_list);
                     update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
+                    win_check();
                     return;
                 }
             }
@@ -1100,6 +1176,7 @@ function play_card(listItem) {
                 update_facedown_count(source_list);
                 update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
+                win_check();
                 return;
             }
         }
@@ -1119,6 +1196,7 @@ function play_card(listItem) {
                     update_facedown_count(source_list);
                     update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
+                    win_check();
                     return;
                 }
             }
@@ -1132,6 +1210,7 @@ function play_card(listItem) {
                 update_facedown_count(source_list);
                 update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
+                win_check();
                 return;
             }
         }
@@ -1151,6 +1230,7 @@ function play_card(listItem) {
                     update_facedown_count(source_list);
                     update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
+                    win_check();
                     return;
                 }
             }
@@ -1164,6 +1244,7 @@ function play_card(listItem) {
                 update_facedown_count(source_list);
                 update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
+                win_check();
                 return;
             }
         }
@@ -1183,6 +1264,7 @@ function play_card(listItem) {
                     update_facedown_count(source_list);
                     update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
+                    win_check();
                     return;
                 }
             }
@@ -1196,6 +1278,7 @@ function play_card(listItem) {
                 update_facedown_count(source_list);
                 update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
+                win_check();
                 return;
             }
         }
@@ -1215,6 +1298,7 @@ function play_card(listItem) {
                     update_facedown_count(source_list);
                     update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
+                    win_check();
                     return;
                 }
             }
@@ -1228,6 +1312,7 @@ function play_card(listItem) {
                 update_facedown_count(source_list);
                 update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
+                win_check();
                 return;
             }
         }
@@ -1247,6 +1332,7 @@ function play_card(listItem) {
                     update_facedown_count(source_list);
                     update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
+                    win_check();
                     return;
                 }
             }
@@ -1260,6 +1346,7 @@ function play_card(listItem) {
                 update_facedown_count(source_list);
                 update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
+                win_check();
                 return;
             }
         }
@@ -1279,6 +1366,7 @@ function play_card(listItem) {
                     update_facedown_count(source_list);
                     update_points(source_list, destination_list, true);
                     update_card_lists(source_array, source_list, destination_array, destination_list);
+                    win_check();
                     return;
                 }
             }
@@ -1292,6 +1380,7 @@ function play_card(listItem) {
                 update_facedown_count(source_list);
                 update_points(source_list, destination_list, true);
                 update_card_lists(source_array, source_list, destination_array, destination_list);
+                win_check();
                 return;
             }
         }
@@ -1300,15 +1389,7 @@ function play_card(listItem) {
     }
 }
 
-
-// TODO refactoring play card function and check order based on source pile (re:max points)
-function check_foundation() {}
-function check_tableau() {}
-
-
-
-
-// update facedown count
+// update face-down count
 function update_facedown_count(source) {
     switch (source) {
         case "waste_list":
@@ -1355,7 +1436,7 @@ function update_facedown_count(source) {
 }
 
 // update card images in html lists
-function update_card_lists (src_array, src_list, dest_array, dest_list) {
+function update_card_lists(src_array, src_list, dest_array, dest_list) {
 
     // clear source and destination lists
     document.getElementById(src_list).innerHTML = "";
@@ -1366,6 +1447,45 @@ function update_card_lists (src_array, src_list, dest_array, dest_list) {
     display_cards(src_array, src_list);
 }
 
+// check for win game conditions
+function win_check() {
+    try {
+
+        if (stock_array.length == 0) {      // check if stock array is 0
+            if (waste_array.length == 0) {      // check if waste array is 0
+                if (tableau2_facedown <= 0) {       // check if tableau2 face-down count is 0
+                    if (tableau3_facedown <= 0) {       // check if tableau3 face-down count is 0
+                        if (tableau4_facedown <= 0) {       // check if tableau4 face-down count is 0
+                            if (tableau5_facedown <= 0) {       // check if tableau5 face-down count is 0
+                                if (tableau6_facedown <= 0) {       // check if tableau6 face-down count is 0
+                                    if (tableau7_facedown <= 0) {       // check if tableau7 face-down count is 0
+                                        win_timer_label = game_timer_label;     // update win modal statistics
+                                        win_score_label = game_score_label;
+                                        win_moves_label = game_moves_label;
+                                        user_msg_modal.checked = true;      // open user message modal
+                                        new_game_modal.checked = true;      // open new game modal
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //console.log("WIN_CHK: stock_array: " + stock_array.length);
+        //console.log("WIN_CHK: waste_array: " + waste_array.length);
+        //console.log("WIN_CHK: tableau2_facedown: " + tableau2_facedown);
+        //console.log("WIN_CHK: tableau3_facedown: " + tableau3_facedown);
+        //console.log("WIN_CHK: tableau4_facedown: " + tableau4_facedown);
+        //console.log("WIN_CHK: tableau5_facedown: " + tableau5_facedown);
+        //console.log("WIN_CHK: tableau6_facedown: " + tableau6_facedown);
+        //console.log("WIN_CHK: tableau7_facedown: " + tableau7_facedown);
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // stock_array card clicked event
 function stock_card(listItem) {
     var restock = false;
@@ -1373,7 +1493,7 @@ function stock_card(listItem) {
         // check if last stock_array card
         if (stock_array.length == 0) {
 
-
+            /*
             // check if waste_array == 0 (WIN EVENT)
             if (waste_array.length == 0) {
                 // open user message modal
@@ -1382,7 +1502,7 @@ function stock_card(listItem) {
                 // open new game modal
                 new_game_modal.checked = true;
             }
-
+            */
 
             // replenish stock_array array from talon array
             stock_array = waste_array.splice(0);
@@ -1423,12 +1543,11 @@ function stock_card(listItem) {
 }
 
 
-
 // calculate points
 function update_points(source, destination, card_moved) {
-    console.log("1. SRC: " + source);
-    console.log("1. DEST: " + destination);
-    console.log("1. MOVE: " + card_moved + "  NUM: " + move_count);
+    //console.log("1. SRC: " + source);
+    //console.log("1. DEST: " + destination);
+    //console.log("1. MOVE: " + card_moved + "  NUM: " + move_count);
     var src = "";
     var dest = "";
     // determine source
@@ -1588,7 +1707,8 @@ function update_points(source, destination, card_moved) {
         move_count++;
         game_moves_label.innerHTML = move_count;
     }
-    console.log("2. SRC: " + src);
-    console.log("2. DEST: " + dest);
-    console.log("2. MOVE: " + card_moved + "  NUM: " + move_count);
+    //console.log("2. SRC: " + src);
+    //console.log("2. DEST: " + dest);
+    //console.log("2. MOVE: " + card_moved + "  NUM: " + move_count);
 }
+
