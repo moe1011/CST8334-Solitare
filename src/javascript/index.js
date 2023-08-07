@@ -69,17 +69,29 @@ var game_timer_label = document.getElementById("gameTimer");
 var game_score_label = document.getElementById("gameScore");
 var game_moves_label = document.getElementById("gameMoves");
 
+var login_modal = document.getElementById("modal-login");
 var new_game_modal = document.getElementById("modal-1");
 var user_msg_modal = document.getElementById("modal-2");
+var user_modal = document.getElementById("modal-user");
 
-/// additional variables
+// additional variables
 var move_count = 0;
 var klondike_score = 0;
 var vegas_score = -52;
 var game_type = "";
 var timer;
 
-
+// user login and profile
+var username_input = document.getElementById("username_input");
+var password_input = document.getElementById("password_input");
+var username_nav = document.getElementById("username_nav");
+var user_credits_nav = document.getElementById("user_credits_nav");
+var user_credits_profile = document.getElementById("user_credits_profile");
+var login_logout_nav = document.getElementById("login_logout_nav");
+var username = "";
+var password = "";
+var user_credits = 12;
+var logged_in = false;
 // //////////
 // START GAME
 // //////////
@@ -87,7 +99,8 @@ var timer;
 // create deck
 create(deck);
 // open game type modal
-new_game_modal.checked = true;
+login_modal.checked = true;
+//new_game_modal.checked = true;
 
 // //////////////////
 // READY FOR GAMEPLAY
@@ -97,8 +110,46 @@ new_game_modal.checked = true;
 // /////////
 // FUNCTIONS
 // /////////
+function login() {
+    var u = username_input.value;
+    var p = password_input.value;
+    if (u.trim().toUpperCase() == "JOHN") {
+        if (p.trim() == "123") {
+            logged_in = true;
+            username = u;
+            password = u;
+            username_nav.innerText = " " + u.toUpperCase() + " ";
+            user_credits_nav.innerText = user_credits.toString();
+            user_credits_profile.innerText = user_credits.toString();
+            login_logout_nav.innerText = "Logout"
+            login_modal.checked = false;
+            new_game_modal.checked = true;
+        }
+    }
+}
 
-
+// purchase game credits
+function purchase_credits() {
+    const radioButtons = document.querySelectorAll('input[name="credits"]');
+    for (const radioButton of radioButtons) {
+        let breakOption = false;
+        let selected_credits = radioButton.value;
+        switch (radioButton.checked) {
+            case true:
+                selected_credits = radioButton.value;
+                breakOption = true;
+                user_credits = parseInt(user_credits) + parseInt(selected_credits);
+                alert("Payment confirmed. Thank-you for your purchase!");
+                user_credits_nav.innerText = user_credits.toString();
+                user_credits_profile.innerText = user_credits.toString();
+                user_modal.checked = false;
+                break;
+        }
+        if (breakOption) {
+            break;
+        }
+    } //end for
+}
 
 // start game timer
 function startTimer() {

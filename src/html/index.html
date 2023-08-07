@@ -1,140 +1,357 @@
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../css/index.css" />
-    <title>Solitare</title>
-  </head>
-  <body>
-    <!-- Header and Game Statistics  -->
-    <header>
-      <div>
-        <h1 style="float: left"><span id="gameTitle"></span>Solitaire</h1>
-        <p style="float: right">
-          <label class="btn btn_new" for="modal-1">New Game</label>
-          <label class="btn btn--blue" for="modal-2">User Msg Test</label>
-        </p>
-        <p style="float: right; width: 8%">
-          Moves:&nbsp;<span id="gameMoves">22</span>
-        </p>
-        <p style="float: right; width: 8%">
-          Score:&nbsp;<span id="gameScore">0</span>
-        </p>
-        <p style="float: right; width: 8%">
-          Time:&nbsp;<span id="gameTimer">00:00</span>
-        </p>
-      </div>
-    </header>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../css/index.css"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Solitaire</title>
+</head>
+<body>
+<!-- Header and Game Statistics  -->
+<header>
+    <div class="navbar w3-display-container">
+        <div class="navbar-left center">
+
+            <img id="abc_logo" src="../images/icons/abc-games.png">
+            <h1>GAMES INC.</h1>
+            <h2 class="w3-cell w3-cursive w3-text-yellow w3-right"><span id="gameTitle"></span>Solitaire</h2>
+        </div>
+        <div class="w3-display-middle">
+
+            <p class="w3-cell w3-margin w3-padding w3-border w3-border-yellow w3-text-yellow" style="width:30%"/>
+            &nbsp;Time:&nbsp;<span id="gameTimer">00:00</span>
+            </p>
+            <p class="w3-cell w3-margin w3-padding w3-border w3-border-yellow w3-text-yellow" style="width:30%">
+                &nbsp;Score:&nbsp;<span id="gameScore">0</span>
+            </p>
+            <p class="w3-cell w3-margin w3-padding w3-border w3-border-yellow w3-text-yellow" style="width:30%">
+                &nbsp;Moves:&nbsp;<span id="gameMoves">22</span>
+            </p>
+        </div>
+
+        <div class="navbar-right">
+            <div class=" navbar-left w3-red">
+                <a id="new_game_link" href="#search"><label for="modal-1"><span
+                        class="fa fa-refresh"></span>
+                    New Game</label></a>
+            </div>
+
+            <div class="navbar-left w3-dark-grey">
+                <a id="help_link" href="https://bicyclecards.com/how-to-play/solitaire/" target="_blank"><span
+                        class="fa fa-question-circle-o"></span> Help</a>
+            </div>
+
+
+            <div class="navbar-right w3-green">
+                <a id="profile_link" href="#about"><label for="modal-user"><span class="fa fa-user-o"></span><span
+                        id="username_nav"> User </span><span
+                        id="user_credits_nav" class="w3-badge w3-yellow">0</span></label></a>
+                <a id="login_link" href="#search"><label for="modal-login"><span class="fa fa-sign-in"></span>
+                    <span id="login_logout_nav"> Login</span></label></a>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+</header>
+<div id="game-table">
 
     <div class="top-wrapper">
-      <div class="stockandwaste">
-        <div class="imageContainer" onclick="stock_card()">
-          <ul id="stock_list" class="card stackedList"></ul>
-          <img
-            src="../images/icons/stock.png"
-            width="100"
-            height="100"
-            class="overlayImage"
-          />
+        <div class="stockandwaste">
+            <div class="imageContainer" onclick="stock_card()">
+                <ul id="stock_list" class="card stackedList"></ul>
+                <img
+                        src="../images/icons/stock.png"
+                        width="100"
+                        height="100"
+                        class="overlayImage"
+                />
+            </div>
+
+            <div class="imageContainer">
+                <ul id="waste_list" class="card stackedList"></ul>
+                <img
+                        src="../images/icons/waste.png"
+                        width="100"
+                        height="100"
+                        class="overlayImage"
+                />
+            </div>
         </div>
 
-        <div class="imageContainer">
-          <ul id="waste_list" class="card stackedList"></ul>
-          <img
-            src="../images/icons/waste.png"
-            width="100"
-            height="100"
-            class="overlayImage"
-          />
-        </div>
-      </div>
+        <div class="foundation">
+            <div class="imageContainer">
+                <ul id="diamonds_list" class="card stackedList"></ul>
+                <img
+                        src="../images/icons/diamonds.png"
+                        width="100"
+                        height="100"
+                        class="overlayImage"
+                />
+            </div>
 
-      <div class="foundation">
-        <div class="imageContainer">
-          <ul id="diamonds_list" class="card stackedList"></ul>
-          <img
-            src="../images/icons/diamonds.png"
-            width="100"
-            height="100"
-            class="overlayImage"
-          />
-        </div>
+            <div class="imageContainer">
+                <ul id="clubs_list" class="card stackedList"></ul>
+                <img
+                        src="../images/icons/clubs.png"
+                        width="100"
+                        height="100"
+                        class="overlayImage"
+                />
+            </div>
 
-        <div class="imageContainer">
-          <ul id="clubs_list" class="card stackedList"></ul>
-          <img
-            src="../images/icons/clubs.png"
-            width="100"
-            height="100"
-            class="overlayImage"
-          />
-        </div>
+            <div class="imageContainer">
+                <ul id="hearts_list" class="card stackedList"></ul>
+                <img
+                        src="../images/icons/hearts.png"
+                        width="100"
+                        height="100"
+                        class="overlayImage"
+                />
+            </div>
 
-        <div class="imageContainer">
-          <ul id="hearts_list" class="card stackedList"></ul>
-          <img
-            src="../images/icons/hearts.png"
-            width="100"
-            height="100"
-            class="overlayImage"
-          />
+            <div class="imageContainer">
+                <ul id="spades_list" class="card stackedList"></ul>
+                <img
+                        src="../images/icons/spades.png"
+                        width="100"
+                        height="100"
+                        class="overlayImage"
+                />
+            </div>
         </div>
-
-        <div class="imageContainer">
-          <ul id="spades_list" class="card stackedList"></ul>
-          <img
-            src="../images/icons/spades.png"
-            width="100"
-            height="100"
-            class="overlayImage"
-          />
-        </div>
-      </div>
     </div>
     <div class="bottom-wrapper">
-      <div class="tableau">
-        <ul id="tableau1_list" class="card fannedList"></ul>
-        <ul id="tableau2_list" class="card fannedList"></ul>
-        <ul id="tableau3_list" class="card fannedList"></ul>
-        <ul id="tableau4_list" class="card fannedList"></ul>
-        <ul id="tableau5_list" class="card fannedList"></ul>
-        <ul id="tableau6_list" class="card fannedList"></ul>
-        <ul id="tableau7_list" class="card fannedList"></ul>
-      </div>
+        <div class="tableau">
+            <ul id="tableau1_list" class="card fannedList"></ul>
+            <ul id="tableau2_list" class="card fannedList"></ul>
+            <ul id="tableau3_list" class="card fannedList"></ul>
+            <ul id="tableau4_list" class="card fannedList"></ul>
+            <ul id="tableau5_list" class="card fannedList"></ul>
+            <ul id="tableau6_list" class="card fannedList"></ul>
+            <ul id="tableau7_list" class="card fannedList"></ul>
+        </div>
+    </div>
+
+    <!-- User Login Modal  -->
+    <input class="modal-state" id="modal-login" type="checkbox" checked/>
+    <div class="modal">
+        <label class="modal__bg" for="modal-1"></label>
+        <div class="modal__inner__large">
+            <div class="w3-card-4">
+                <form class="w3-container" action="javascript:void(0);" onsubmit="login()">
+                    <div class="w3-section w3-center">
+                        <img id="abc_logo2" src="../images/icons/abc-games2.png">
+                    </div>
+                    <div class="w3-section">
+                        <label><b>Username</b></label>
+                        <input id="username_input" class="w3-input w3-border w3-margin-bottom" type="text"
+                               placeholder="Enter Username (john)"
+                               name="username" required>
+                        <label><b>Password</b></label>
+                        <input id="password_input" class="w3-input w3-border" type="password"
+                               placeholder="Enter Password (123)" name="psw"
+                               required>
+                        <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">Login</button>
+                        <input class="w3-check" type="checkbox" checked="checked"> Remember me
+                    </div>
+                </form>
+
+                <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+
+                    <button onclick="document.getElementById('modal-login').checked=false" type="button"
+                            class="w3-button w3-red">Cancel
+                    </button>
+                    <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Welcome/ New Game Modal  -->
-    <input class="modal-state" id="modal-1" type="checkbox" checked />
+    <input class="modal-state" id="modal-1" type="checkbox"/>
     <div class="modal">
-      <label class="modal__bg" for="modal-1"></label>
-      <div class="modal__inner">
-        <!--force use to select game type and close model from btn onclick
-        <label class="modal__close" for="modal-1"></label> -->
-        <div>
-          <h2>Welcome to Solitare!</h2>
-          <p>Please choose a game style</p>
+        <label class="modal__bg" for="modal-1"></label>
+        <div class="modal__inner">
+            <!--force use to select game type and close model from btn onclick
+            <label class="modal__close" for="modal-1"></label> -->
+            <div class="w3-container w3-center w3-padding">
+                <h2>Welcome to Solitaire!</h2>
+                <p>Please choose a game style</p>
+            </div>
+            <div class="w3-container w3-center w3-padding">
+                <button id="klondike_btn" class="btn" onclick="newGame(this.id)">Klondike</button>
+                <button id="vegas_btn" class="btn" onclick="newGame(this.id)">Vegas</button>
+            </div>
+            <div class="w3-container w3-center w3-padding">
+                <img id="coming_soon" class="w3-card-4" src="../images/icons/black_jack.png">
+            </div>
         </div>
-        <div>
-          <button id="klondike_btn" class="btn" onclick="newGame(this.id)">Klondike</button>
-          <button id="vegas_btn" class="btn" onclick="newGame(this.id)">Vegas</button>
+    </div>
+
+    <!-- User Profile Modal  -->
+    <input class="modal-state" id="modal-user" type="checkbox"/>
+    <div class="modal">
+        <label class="modal__bg" for="modal-user"></label>
+        <div class="modal__inner__large">
+            <div class="w3-twothird w3-padding-small">
+                <div class="w3-card-4">
+                    <header class="w3-container w3-light-grey">
+                        <h3>John Doe</h3>
+                    </header>
+                    <div class="w3-container w3=content w3-padding w3-small">
+                        <div class="w3-half w3-padding w3-yellow">
+                            <p>Email: johndoe@aol.com</p>
+                        </div>
+                        <div class="w3-half w3-padding w3-pale-yellow">
+                            <p>Password: *****</p>
+                        </div>
+
+                        <div class="w3-container w3-content w3-panel w3-orange">
+                            <div class="w3-padding">
+                                <img src="../images/icons/img_avatar3.png" alt="Avatar"
+                                     class="w3-left w3-circle w3-margin-right" style="width:60px">
+                                <p>Professional Vegas Card Player.<br>Ching! Ching!</p>
+                            </div>
+                        </div>
+                        <button class="w3-button w3-block w3-dark-grey">Edit User Information</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="w3-third w3-padding-small">
+                <div class="w3-card-4">
+                    <header class="w3-container w3-light-grey">
+                        <h3>Achievements</h3>
+                    </header>
+                    <div class="w3-container w3=content w3-padding">
+                        <div>
+                            <img src="../images/icons/trophies.png" alt="Trophies"
+                                 class="w3-margin-right" style="width:180px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-container w3-margin-top w3-padding-small">
+                <div class="w3-card-4">
+                    <header class="w3-container w3-light-grey">
+                        <h3>Game Credits<span id="user_credits_profile" class="w3-badge w3-yellow w3-right">0</span>
+                        </h3>
+                    </header>
+                    <div class="w3-container w3=content w3-padding-small">
+                        <div class="w3-panel w3-red">
+                            <p>Use Game Credits to purchase special card deck themes and other add-ons!</p>
+                        </div>
+
+                        <div class="container w3-margin-top w3-sand">
+                            <h3>Purchase ABC Game Credits <span class="price" style="color:black"><i
+                                    class="fa fa-shopping-cart"></i></span>
+                            </h3>
+                            <form class="w3-container w3-small" action="javascript:void(0);"
+                                  onsubmit="purchase_credits()">
+                                <p>
+                                    <input class="w3-radio" type="radio" name="credits" value="50">
+                                    <label>50 Credits</label><span class="price">$15</span></p>
+                                <p>
+                                    <input class="w3-radio" type="radio" name="credits" value="25">
+                                    <label>25 Credits</label><span class="price">$8</span></p>
+                                <p>
+                                    <input class="w3-radio" type="radio" name="credits" value="15">
+                                    <label>15 Credits</label><span class="price">$5</span></p>
+                                <p>
+                                    <input class="w3-radio" type="radio" name="credits" value="10">
+                                    <label>10 Credits</label><span class="price">$2</span></p>
+                            </form>
+
+                        </div>
+                        <div class="container w3-margin-top w3-sand">
+                            <form action="javascript:void(0);" onsubmit="purchase_credits()">
+
+                                <div class="w3-container w3-padding-small">
+                                    <div class="w3-half w3-padding-small w3-small">
+                                        <h3>Billing Address</h3>
+                                        <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+                                        <input type="text" id="fname" name="firstname" placeholder="John M. Doe">
+                                        <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                                        <input type="text" id="email" name="email" placeholder="john@example.com">
+                                        <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
+                                        <input type="text" id="adr" name="address" placeholder="1385 Woodroffe Ave">
+                                        <label for="city"><i class="fa fa-institution"></i> City</label>
+                                        <input type="text" id="city" name="city" placeholder="Nepean">
+
+                                        <div class="w3-content">
+                                            <div class="w3-half">
+                                                <label for="state">State/Province</label>
+                                                <input type="text" id="state" name="state" placeholder="ON">
+                                            </div>
+                                            <div class="w3-rest padding_left">
+                                                <label for="zip">Zip/Postal Code</label>
+                                                <input type="text" id="zip" name="zip" placeholder="K2G 1V8">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="w3-half w3-padding-small w3-small">
+                                        <h3>Payment</h3>
+                                        <label for="fname">Accepted Cards</label>
+                                        <div class="icon-container">
+                                            <i class="fa fa-cc-visa" style="color:navy;"></i>
+                                            <i class="fa fa-cc-amex" style="color:blue;"></i>
+                                            <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                                            <i class="fa fa-cc-discover" style="color:orange;"></i>
+                                        </div>
+                                        <label for="cname">Name on Card</label>
+                                        <input type="text" id="cname" name="cardname" placeholder="John More Doe">
+                                        <label for="ccnum">Credit card number</label>
+                                        <input type="text" id="ccnum" name="cardnumber"
+                                               placeholder="1111-2222-3333-4444">
+                                        <label for="expmonth">Exp Month</label>
+                                        <input type="text" id="expmonth" name="expmonth" placeholder="September">
+                                        <div class="content">
+                                            <div class="w3-half">
+                                                <label for="expyear">Exp Year</label>
+                                                <input type="text" id="expyear" name="expyear" placeholder="2025">
+                                            </div>
+                                            <div class="w3-rest padding_left">
+                                                <label for="cvv">CVV</label>
+                                                <input type="text" id="cvv" name="cvv" placeholder="352">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="w3-container">
+                                    <label>
+                                        <input type="checkbox" checked="checked" name="sameadr"> Shipping address same
+                                        as billing
+                                    </label>
+                                    <input type="submit" value="Continue to checkout" class="checkout_btn">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <!-- User Message Modal -->
-    <input class="modal-state" id="modal-2" type="checkbox" />
+    <input class="modal-state" id="modal-2" type="checkbox"/>
     <div class="modal">
-      <label class="modal__bg" for="modal-2"></label>
-      <div class="modal__inner win_screen">
-        <label class="modal__close" for="modal-2"></label>
-        <h2>Congratulations You Won!</h2>
-        <p>Time:</p>
-        <p>Score:</p>
-        <p>Moves:</p>
-      </div>
+        <label class="modal__bg" for="modal-2"></label>
+        <div class="modal__inner win_screen">
+            <label class="modal__close" for="modal-2"></label>
+            <h2>Congratulations You Won!</h2>
+            <p>Time:</p>
+            <p>Score:</p>
+            <p>Moves:</p>
+        </div>
     </div>
+</div>
 
-    <script src="../javascript/index.js"></script>
-  </body>
+<script src="../javascript/index.js"></script>
+</body>
 </html>
