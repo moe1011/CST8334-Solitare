@@ -248,9 +248,9 @@ function newGame(type) {
     move_count = 0;
     game_moves_label.innerHTML = move_count;
 
-    win_timer_label = "";
-    win_score_label = "";
-    win_moves_label = "";
+    win_timer_label.innerHTML = "";
+    win_score_label.innerHTML = "";
+    win_moves_label.innerHTML = "";
 
     // reset card deck and table
     resetGameTable();
@@ -1459,9 +1459,9 @@ function win_check() {
                             if (tableau5_facedown <= 0) {       // check if tableau5 face-down count is 0
                                 if (tableau6_facedown <= 0) {       // check if tableau6 face-down count is 0
                                     if (tableau7_facedown <= 0) {       // check if tableau7 face-down count is 0
-                                        win_timer_label = game_timer_label;     // update win modal statistics
-                                        win_score_label = game_score_label;
-                                        win_moves_label = game_moves_label;
+                                        win_timer_label.innerHTML = game_timer_label.innerHTML;     // update win modal statistics
+                                        win_score_label.innerHTML = game_score_label.innerHTML;
+                                        win_moves_label.innerHTML = game_moves_label.innerHTML;
                                         user_msg_modal.checked = true;      // open user message modal
                                         new_game_modal.checked = true;      // open new game modal
                                     }
